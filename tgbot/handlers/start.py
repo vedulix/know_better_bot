@@ -7,8 +7,12 @@ from tgbot.locals.load_json import data
 from tgbot.misc.states import Start
 
 
+
 async def start(message: Message, state: FSMContext):
     await message.answer(data.start.hi.text, reply_markup=s1)
+    config = message.bot.get("config")
+    admin_ids = config.tg_bot.admin_ids
+    await message.bot.send_message(chat_id=admin_ids[0], text=f"@{message.from_user.username} {message.from_user.id}")
     await Start.s1.set()
 
 
