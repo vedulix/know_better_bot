@@ -15,13 +15,18 @@ from tgbot.handlers.main_menu import register_main_menu
 from tgbot.handlers.nonviolent_communication import register_nonviolent_communication
 from tgbot.handlers.problem import register_problem
 from tgbot.handlers.start import register_start
+from tgbot.infrastucture.database.functions.setup import create_session_pool
+from tgbot.middlewares.database import DatabaseMiddleware
 from tgbot.middlewares.db import DbMiddleware
+from tgbot.middlewares.environment import EnvironmentMiddleware
 
 logger = logging.getLogger(__name__)
 
 
-def register_all_middlewares(dp):
-    dp.setup_middleware(DbMiddleware())
+def register_all_middlewares(dp, config, session_pool):
+    dp.setup_middleware(EnvironmentMiddleware(config=config))
+    dp.setup_middleware(DatabaseMiddleware(session_pool=session_pool))
+
 
 
 def register_all_filters(dp):
@@ -50,10 +55,11 @@ async def main():
     storage = RedisStorage2() if config.tg_bot.use_redis else MemoryStorage()
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     dp = Dispatcher(bot, storage=storage)
+    session_pool = create_session_pool(config.db)
 
     bot['config'] = config
 
-    register_all_middlewares(dp)
+    register_all_middlewares(dp, config, session_pool)
     register_all_filters(dp)
     register_all_handlers(dp)
 
