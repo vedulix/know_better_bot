@@ -2,5 +2,7 @@ aiogram~=2.18
 aioredis~=2.0
 environs~=9.0
 python-box[all]~=6.0
+asyncpg
+alembic
 
 SQLAlchemy~=1.4.39

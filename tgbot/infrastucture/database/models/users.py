@@ -14,3 +14,4 @@ class User(Base):
     full_name = Column(VARCHAR(255), nullable=False)
     language_code = Column(VARCHAR(10), nullable=False)
     referrer_id = Column(BIGINT, ForeignKey('users.telegram_id', ondelete='SET NULL'))
+
