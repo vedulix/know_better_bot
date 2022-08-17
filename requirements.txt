@@ -4,5 +4,5 @@ environs~=9.0
 python-box[all]~=6.0
 asyncpg
 alembic
-
+psycopg2
 SQLAlchemy~=1.4.39
