@@ -12,6 +12,8 @@ from tgbot.misc.states import Know
 async def choose(message: types.Message, state: FSMContext):
   await message.answer(data.know_better.whom.text, reply_markup=whom)
   await Know.whom.set()
+  await state.update_data(questions_family=['start'])
+
 
 async def myself(message: types.Message, state: FSMContext):
   question = random.choice(questions_myself)
@@ -25,8 +27,25 @@ async def partner(message: types.Message, state: FSMContext):
   await Know.partner.set()
 
 
-async def family(message: types.Message, state: FSMContext):
+async def family_(message: types.Message, state: FSMContext):
   question = random.choice(questions_family)
+  await message.answer(question, reply_markup=next_question)
+  await Know.family.set()
+
+async def family(message: types.Message, state: FSMContext):
+  async with state.proxy() as data:
+    if len(data["questions_family"])==0:
+      await message.answer("Вопросы из этой категории закончились. Если ты хочешь предложить свой вопрос, отправь его по контактам в описании бота. Мы его рассмотрим, и если он подойдёт, добавим в список вопросов.\n\nДальше вопросы пойдут заново по второму кругу. Ты можешь сменить категорию, нажав на кнопку на клавиатуре.", reply_markup=next_question)
+      data["questions_family"] = questions_family
+    elif data["questions_family"][0]=='start':
+      data["questions_family"] = questions_family
+
+  question = random.choice(data.get("questions_family"))
+  async with state.proxy() as data:
+    tmp=data["questions_family"]
+    tmp.remove(question)
+    data["questions_family"]=tmp
+
   await message.answer(question, reply_markup=next_question)
   await Know.family.set()
 
