@@ -14,6 +14,9 @@ class Know(StatesGroup):
   whom = State()
   myself = State()
   partner= State()
+  partner_test= State()
+  partner_choose= State()
+
   family = State()
   friend = State()
 

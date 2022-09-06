@@ -13,7 +13,8 @@ s4 = ReplyKeyboardMarkup(resize_keyboard=True).add(KeyboardButton(data.start.to_
 #know_better keyboards
 whom = ReplyKeyboardMarkup(resize_keyboard=True).add(KeyboardButton(data.know_better.whom.kb[0]), KeyboardButton(data.know_better.whom.kb[1])).add(KeyboardButton(data.know_better.whom.kb[2]), KeyboardButton(data.know_better.whom.kb[3])).add(KeyboardButton(data.know_better.whom.kb[4]))
 next_question=ReplyKeyboardMarkup(resize_keyboard=True).add(KeyboardButton(data.know_better.questions.kb[0])).add(KeyboardButton(data.know_better.questions.kb[1]), KeyboardButton(data.know_better.questions.kb[2]))
-
+next_sub_question=ReplyKeyboardMarkup(resize_keyboard=True).add(KeyboardButton(data.know_better.sub_questions.kb[0])).add(KeyboardButton(data.know_better.sub_questions.kb[1]), KeyboardButton(data.know_better.sub_questions.kb[2]))
+partner_choose=ReplyKeyboardMarkup(resize_keyboard=True).add(KeyboardButton(data.know_better.partner.choose.kb[0]),KeyboardButton(data.know_better.partner.choose.kb[1])).add(KeyboardButton(data.know_better.partner.choose.kb[2]))
 
 #main_menu
 rec_choose = ReplyKeyboardMarkup(resize_keyboard=True).add(KeyboardButton(data.rec.choose.kb[0]), KeyboardButton(data.rec.choose.kb[1])).add(KeyboardButton(data.rec.choose.kb[2]))

@@ -4,9 +4,10 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import state
 
-from tgbot.keyboards.reply import whom, next_question, main_menu_buttons
+from tgbot.keyboards.reply import whom, next_question, main_menu_buttons, next_sub_question
 from tgbot.locals.load_json import data
-from tgbot.locals.load_questions import questions_myself, questions_partner, questions_family, questions_friend
+from tgbot.locals.load_questions import questions_myself, questions_partner, questions_family, questions_friend, \
+  questions_partner_test
 from tgbot.misc.states import Know
 
 async def choose(message: types.Message, state: FSMContext):
@@ -25,6 +26,16 @@ async def partner(message: types.Message, state: FSMContext):
   question = random.choice(questions_partner)
   await message.answer(question, reply_markup=next_question)
   await Know.partner.set()
+
+async def partner_test(message: types.Message, state: FSMContext):
+  question = random.choice(questions_partner_test)
+  await message.answer(question, reply_markup=next_sub_question)
+  await Know.partner_test.set()
+
+
+async def partner_choose(message: types.Message, state: FSMContext):
+  await message.answer(data.know_better.partner.choose.text, reply_markup=partner_choose)
+  await Know.partner_choose.set()
 
 
 async def family_(message: types.Message, state: FSMContext):
