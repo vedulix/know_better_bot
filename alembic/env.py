@@ -9,7 +9,9 @@ from alembic import context
 # access to the values within the .ini file in use.
 from tgbot.config import load_config
 from tgbot.infrastucture.database.models.base import Base
-from tgbot.infrastucture.database.models.users import User, Question
+from tgbot.infrastucture.database.models.users import User
+from tgbot.infrastucture.database.models.questions import Question
+
 
 dbconfig = load_config(".env").db
 
