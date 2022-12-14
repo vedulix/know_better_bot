@@ -4,7 +4,7 @@ from tgbot.infrastucture.database.models.base import Base
 
 
 
-class Question(Base):
+class Questions(Base):
     __tablename__ = 'questions'
 
     id = Column(BIGINT, primary_key=True)

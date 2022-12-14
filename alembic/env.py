@@ -10,7 +10,8 @@ from alembic import context
 from tgbot.config import load_config
 from tgbot.infrastucture.database.models.base import Base
 from tgbot.infrastucture.database.models.users import User
-from tgbot.infrastucture.database.models.questions import Question
+from tgbot.infrastucture.database.models.questions import Questions
+from tgbot.infrastucture.database.models.answers import Answers
 
 
 dbconfig = load_config(".env").db

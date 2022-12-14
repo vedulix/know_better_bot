@@ -13,10 +13,12 @@ class main_menu_states(StatesGroup):
 class Know(StatesGroup):
   whom = State()
   myself = State()
-  partner= State()
-  partner_test= State()
-  partner_choose= State()
-
+  partner = State()
+  partner_test = State()
+  partner_choose = State()
+  friend_choose = State()
+  work = State()
+  work_ans = State()
   family = State()
   friend = State()
 
