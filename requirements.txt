@@ -6,3 +6,8 @@ asyncpg
 alembic
 psycopg2
 SQLAlchemy~=1.4.39
+telegraph
+datetime
+apscheduler
+apscheduler-di
+redis

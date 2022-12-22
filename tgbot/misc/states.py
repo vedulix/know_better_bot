@@ -22,6 +22,14 @@ class Know(StatesGroup):
   family = State()
   friend = State()
 
+
+class Jour(StatesGroup):
+  year_hi = State()
+  choose = State()
+  self_hi = State()
+  work_ans = State()
+  see_ans = State()
+
 class actlis_states(StatesGroup):
   al1 = State()
   al2 = State()
@@ -38,3 +46,5 @@ class nvc_states(StatesGroup):
   n4 = State()
   n5 = State()
   n6 = State()
+
+

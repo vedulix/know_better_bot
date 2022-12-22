@@ -1,4 +1,5 @@
 from sqlalchemy import insert, select, inspect, func
+from sqlalchemy.dialects.postgresql import array_agg
 from sqlalchemy.orm import aliased, join
 
 from tgbot.infrastucture.database.models.answers import Answers
@@ -8,8 +9,6 @@ from tgbot.infrastucture.database.models.users import User
 def object_as_dict(obj):
     return {c.key: getattr(obj, c.key)
             for c in inspect(obj).mapper.column_attrs}
-
-
 
 
 async def create_user(session, telegram_id, full_name, username, language_code, referrer_id=None):
@@ -22,6 +21,7 @@ async def create_user(session, telegram_id, full_name, username, language_code, 
     )
     await session.execute(stmt)
 
+
 async def write_answer(session, telegram_id, question_id, category, answer):
     stmt = insert(Answers).values(
         telegram_id=telegram_id,
@@ -31,14 +31,35 @@ async def write_answer(session, telegram_id, question_id, category, answer):
     )
     await session.execute(stmt)
 
-async def load_questions(session, category):
-    stmt = select(Questions.id, Questions.question, Questions.category).filter_by(category=category).order_by(func.random())
+
+async def load_questions(session, category, random=True):
+    stmt = select(Questions.id, Questions.question, Questions.category).filter_by(category=category)
+    if random: stmt = stmt.order_by(func.random())
     result = await session.execute(stmt)
     rows = result.all()
     result_dict = [u._asdict() for u in rows]
    # rows = [dict(row) for row in rows]
    # print(result_dict)
     return result_dict
+
+
+async def get_last_answers(session, telegram_id, category):
+    stmt = select(Questions.question, array_agg(Answers.answer), func.max(Answers.created_at)).filter_by(
+        category=category
+    ).join(
+        Answers,
+        Answers.question_id == Questions.id
+    ).group_by(Questions.question).filter_by(
+        telegram_id=telegram_id).order_by(func.max(Answers.created_at).desc())
+    result = await session.execute(stmt)
+    rows = result.all()
+    result_dict = [u._asdict() for u in rows]
+    return result_dict
+
+async def count_questions_in_category(session, category):
+    stmt = select(func.count(Questions.question)).filter_by(category=category)
+    result = await session.execute(stmt)
+    return result.first()[0]
 
 async def select_users_with_referrer(session):
     # Simple INNER JOIN

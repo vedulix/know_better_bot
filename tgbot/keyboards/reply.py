@@ -1,9 +1,15 @@
-from aiogram.types import ReplyKeyboardMarkup as RKM
+from aiogram.types import ReplyKeyboardMarkup as RKM, ReplyKeyboardRemove
 from aiogram.types import KeyboardButton as kb
 
 
 from tgbot.locals.load_json import data
 
+def mkb(l):
+  for row in l:
+    for i in range(len(row)):
+      row[i] = kb(row[i]) #оборачиваем строки в keyboardbutton
+  keyboard = RKM(keyboard=l, resize_keyboard=True)
+  return keyboard
 
 #start keyboards
 s1 = RKM(resize_keyboard=True).add(kb(data.start.hi.kb))
@@ -22,12 +28,20 @@ friend_choose_kb = RKM(resize_keyboard=True).add(kb(data.know_better.friend.choo
 
 work_hi_kb = RKM(resize_keyboard=True).add(kb(data.know_better.sub_questions.hi.kb[0])).add(kb(data.know_better.sub_questions.hi.kb[1]))
 work_kb = RKM(resize_keyboard=True).add(kb(data.know_better.sub_questions.work.kb[0]), kb(data.know_better.sub_questions.work.kb[1])).add(kb(data.know_better.sub_questions.work.kb[2]))
-work_ans_kb = RKM(resize_keyboard=True, input_field_placeholder=data.know_better.sub_questions.work_ans.placeholder).add(kb(data.know_better.sub_questions.work_ans.kb[0]), kb(data.know_better.sub_questions.work_ans.kb[1])).add(kb(data.know_better.sub_questions.work_ans.kb[2]))
+
+#journaling keyboards
+choose_jour = RKM(resize_keyboard=True).add(kb(data.jour.choose.kb[0]), kb(data.jour.choose.kb[1])).add(kb(data.main_menu.text_to))
+self_hi = RKM(resize_keyboard=True).add(kb(data.jour.myself.hi.kb[0]), kb(data.jour.myself.hi.kb[1])).add(kb(data.jour.myself.hi.kb[2]))
+sub_hi = RKM(resize_keyboard=True).add(kb(data.jour.sub.hi.kb[0]), kb(data.jour.sub.hi.kb[1])).add(kb(data.jour.sub.hi.kb[2]))
+#year_hi=
+
+work_ans_kb = RKM(resize_keyboard=True, input_field_placeholder=data.jour.sub.work_ans.placeholder).add(kb(data.jour.sub.work_ans.kb[0]), kb(data.jour.sub.work_ans.kb[1]))
+#work_ans_kb = ReplyKeyboardRemove().add(kb(data.know_better.sub_questions.work_ans.kb[0]), kb(data.know_better.sub_questions.work_ans.kb[1])).add(kb(data.know_better.sub_questions.work_ans.kb[2]))
 
 #main_menu
 rec_choose = RKM(resize_keyboard=True).add(kb(data.rec.choose.kb[0]), kb(data.rec.choose.kb[1])).add(kb(data.rec.choose.kb[2]))
 about_bot_kb = RKM(resize_keyboard=True).add(kb(data.about_bot.kb[0]))
-main_menu_buttons = RKM(resize_keyboard=True).add(kb(data.main_menu.kb[0])).add(kb(data.main_menu.kb[1]), kb(data.main_menu.kb[2]))
+main_menu_buttons = RKM(resize_keyboard=True).add(kb(data.main_menu.kb[0]), kb(data.main_menu.kb[1])).add(kb(data.main_menu.kb[2]), kb(data.main_menu.kb[3]))
 
 
 #active listening

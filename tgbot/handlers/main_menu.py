@@ -14,7 +14,7 @@ async def recommendations(message: types.Message, state: FSMContext):
   await main_menu_states.rec.set()
 
 async def about(message: types.Message, state: FSMContext):
-  await message.answer(data.about_bot.text, reply_markup=about_bot_kb)
+  await message.answer(data.about_bot.text, reply_markup=about_bot_kb, disable_web_page_preview=True)
   await main_menu_states.about.set()
 
 async def to_main_menu(message: types.Message, state: FSMContext):
@@ -23,8 +23,10 @@ async def to_main_menu(message: types.Message, state: FSMContext):
 
 
 def register_main_menu(dp: Dispatcher):
-  dp.register_message_handler(about, text=data.main_menu.kb[2])
-  dp.register_message_handler(recommendations, text=data.main_menu.kb[1])
+  dp.register_message_handler(about, text=data.main_menu.kb[3])
+  dp.register_message_handler(recommendations, text=data.main_menu.kb[2])
   dp.register_message_handler(to_main_menu, text=data.main_menu.text_to, state=main_menu_states.rec)
   dp.register_message_handler(to_main_menu, text=data.about_bot.kb[0], state=main_menu_states.about)
+  dp.register_message_handler(to_main_menu, commands=["menu", "help"], state="*")
+  dp.register_message_handler(to_main_menu, text=data.main_menu.text_to, state="*")
 
