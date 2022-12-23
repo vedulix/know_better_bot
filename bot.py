@@ -28,6 +28,7 @@ from tgbot.middlewares.scheduler import SchedulerMiddleware
 from tgbot.middlewares.throttling import ThrottlingMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
+from tgbot.misc.scheduler_jobs import send_message_to_admin
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +60,8 @@ def register_all_handlers(dp):
     register_journaling(dp)
     register_problem(dp)
 
+def set_scheduled_jobs(scheduler, bot, config, *args, **kwargs):
+    scheduler.add_job(send_message_to_admin, "interval", seconds=5, args=(bot, config))
 
 async def main():
     logging.basicConfig(
@@ -74,7 +77,9 @@ async def main():
     session_pool = create_session_pool(config.db)
     job_stores = {
         "default": RedisJobStore(
-            jobs_key="dispatched_trips_jobs", run_times_key="dispatched_trips_running"
+            jobs_key="dispatched_trips_jobs", run_times_key="dispatched_trips_running",
+            # параметры host и port необязательны, для примера показано как передавать параметры подключения
+            host=config.redis.host, port=config.redis.port, password=config.redis.password
         )
     }
     scheduler = ContextSchedulerDecorator(AsyncIOScheduler(jobstores=job_stores))
@@ -83,13 +88,16 @@ async def main():
 
     bot['config'] = config
 
+    # Ставим наши таски на запуск, передаем нужные переменные
+    set_scheduled_jobs(scheduler, bot, config)
+
     register_all_middlewares(dp, config, session_pool, scheduler)
     register_all_filters(dp)
     register_all_handlers(dp)
 
     # start
     try:
-       # scheduler.start()
+        scheduler.start()
         await dp.start_polling()
     finally:
         await dp.storage.close()
