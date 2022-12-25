@@ -24,11 +24,16 @@ class Know(StatesGroup):
 
 
 class Jour(StatesGroup):
-  year_hi = State()
+  year_hi_ = State()
+  year_to_ = State()
   choose = State()
   self_hi = State()
   work_ans = State()
   see_ans = State()
+
+  year_why1 = State()
+  year_why2 = State()
+  year_why3 = State()
 
 class actlis_states(StatesGroup):
   al1 = State()

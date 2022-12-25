@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from datetime import datetime
 
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -60,8 +61,8 @@ def register_all_handlers(dp):
     register_journaling(dp)
     register_problem(dp)
 
-def set_scheduled_jobs(scheduler, bot, config, *args, **kwargs):
-    scheduler.add_job(send_message_to_admin, "interval", seconds=5, args=(bot, config))
+def set_scheduled_jobs(scheduler, *args, **kwargs):
+    scheduler.add_job(send_message_to_admin, "interval", seconds=5)
 
 async def main():
     logging.basicConfig(
@@ -89,7 +90,7 @@ async def main():
     bot['config'] = config
 
     # Ставим наши таски на запуск, передаем нужные переменные
-    set_scheduled_jobs(scheduler, bot, config)
+    set_scheduled_jobs(scheduler)
 
     register_all_middlewares(dp, config, session_pool, scheduler)
     register_all_filters(dp)
@@ -97,7 +98,7 @@ async def main():
 
     # start
     try:
-        scheduler.start()
+        #scheduler.start()
         await dp.start_polling()
     finally:
         await dp.storage.close()
