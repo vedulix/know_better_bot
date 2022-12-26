@@ -30,10 +30,10 @@ async def mailing(message: types.Message, state: FSMContext, session: AsyncSessi
   for u in users:
     try:
       await message.send_copy(chat_id=u['telegram_id'], reply_markup=main_menu_buttons)
-    except BotBlocked or UserDeactivated:
-      await deactivate_user(session, telegram_id=u['telegram_id'])
-    except Exception:
-      await message.answer(f"{Exception} {u['telegram_id']}")
+ #   except BotBlocked or UserDeactivated:
+ #     await deactivate_user(session, telegram_id=u['telegram_id'])
+    except Exception as ex:
+      await message.answer(f"{ex} {u['telegram_id']}")
       await deactivate_user(session, telegram_id=u['telegram_id'])
 
     #time.sleep(1)
