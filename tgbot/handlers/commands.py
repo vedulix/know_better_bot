@@ -2,7 +2,7 @@ import time
 
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
-from aiogram.utils.exceptions import BotBlocked
+from aiogram.utils.exceptions import BotBlocked, UserDeactivated
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from tgbot.config import Config
@@ -25,15 +25,20 @@ async def cancel_mailing(message: types.Message, state: FSMContext):
 async def mailing(message: types.Message, state: FSMContext, session: AsyncSession):
   users = await select_all_users(session)
   await message.answer('mailing started')
+  await state.reset_state()
+
   for u in users:
     try:
       await message.send_copy(chat_id=u['telegram_id'], reply_markup=main_menu_buttons)
-    except BotBlocked:
+    except BotBlocked or UserDeactivated:
       await deactivate_user(session, telegram_id=u['telegram_id'])
+    except Exception:
+      await message.answer(f"{Exception} {u['telegram_id']}")
+      await deactivate_user(session, telegram_id=u['telegram_id'])
+
     #time.sleep(1)
   await session.commit()
   await message.answer('mailing finished')
-  await state.reset_state()
 
 
 def register_commands(dp: Dispatcher):

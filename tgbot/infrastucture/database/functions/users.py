@@ -23,8 +23,6 @@ async def create_user(session, telegram_id, full_name, username, language_code, 
 
 
 async def deactivate_user(session, telegram_id):
-    #stmt = User.filter(User.telegram_id == telegram_id).update({'active': False})
-    #stmt = User.update().where(User.telegram_id == telegram_id).values(active=False)
     stmt = update(User).where(User.telegram_id == telegram_id).values(active=False)
     await session.execute(stmt)
 
