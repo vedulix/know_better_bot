@@ -9,10 +9,6 @@ def mkb(l):
   return keyboard
 
 #start keyboards
-s1 = RKM(resize_keyboard=True).add(kb(data.start.hi.kb))
-s2 = RKM(resize_keyboard=True).add(kb(data.start.ask_question_how.kb))
-s3 = RKM(resize_keyboard=True).add(kb(data.start.ask_question_for_whom.kb))
-s4 = RKM(resize_keyboard=True).add(kb(data.start.to_main_menu.kb[0])).add(kb(data.start.to_main_menu.kb[1]), kb(data.start.to_main_menu.kb[2]))
 
 
 #know_better keyboards

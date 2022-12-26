@@ -21,6 +21,13 @@ async def create_user(session, telegram_id, full_name, username, language_code, 
     )
     await session.execute(stmt)
 
+async def select_all_users(session):
+    stmt = select(User.telegram_id)
+    result = await session.execute(stmt)
+    rows = result.all()
+    result_dict = [u._asdict() for u in rows]
+    return result_dict
+
 
 async def write_answer(session, telegram_id, question_id, category, answer):
     stmt = insert(Answers).values(

@@ -110,6 +110,7 @@ async def see_ans(message: types.Message, state: FSMContext, session: AsyncSessi
       html += "<br>"
     link = to_telegraph_link(page_name=category_name, html_content=html)
     await message.answer(f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>')
+    time.sleep(3)
   else:
     await message.answer(data.jour.sub.work_ans.zero)
 

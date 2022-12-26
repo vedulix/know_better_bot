@@ -52,7 +52,7 @@ def register_all_handlers(dp):
     register_admin(dp)
     register_test(dp)
     register_start(dp)
-    #register_commands(dp)
+    register_commands(dp)
 
     register_main_menu(dp)
     register_active_listening(dp)

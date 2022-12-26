@@ -5,10 +5,19 @@ class Start(StatesGroup):
   s1=State()
   s2=State()
   s3=State()
+  s4=State()
+  s5=State()
+  s6=State()
+  s7=State()
+  s8=State()
+  s9=State()
 
 class main_menu_states(StatesGroup):
   rec = State()
   about = State()
+
+class Mail(StatesGroup):
+  wait = State()
 
 class Know(StatesGroup):
   whom = State()
