@@ -1,4 +1,4 @@
-from sqlalchemy import insert, select, inspect, func
+from sqlalchemy import insert, select, inspect, func, update
 from sqlalchemy.dialects.postgresql import array_agg
 from sqlalchemy.orm import aliased, join
 
@@ -21,8 +21,16 @@ async def create_user(session, telegram_id, full_name, username, language_code, 
     )
     await session.execute(stmt)
 
+
+async def deactivate_user(session, telegram_id):
+    #stmt = User.filter(User.telegram_id == telegram_id).update({'active': False})
+    #stmt = User.update().where(User.telegram_id == telegram_id).values(active=False)
+    stmt = update(User).where(User.telegram_id == telegram_id).values(active=False)
+    await session.execute(stmt)
+
+
 async def select_all_users(session):
-    stmt = select(User.telegram_id)
+    stmt = select(User.telegram_id).filter_by(active=True)
     result = await session.execute(stmt)
     rows = result.all()
     result_dict = [u._asdict() for u in rows]

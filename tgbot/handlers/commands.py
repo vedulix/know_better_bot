@@ -1,9 +1,12 @@
+import time
+
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
+from aiogram.utils.exceptions import BotBlocked
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from tgbot.config import Config
-from tgbot.infrastucture.database.functions.users import select_all_users
+from tgbot.infrastucture.database.functions.users import select_all_users, deactivate_user
 from tgbot.keyboards.reply import main_menu_buttons
 from tgbot.locals.load_json import data
 from tgbot.misc.states import Mail
@@ -23,7 +26,12 @@ async def mailing(message: types.Message, state: FSMContext, session: AsyncSessi
   users = await select_all_users(session)
   await message.answer('mailing started')
   for u in users:
-    await message.send_copy(chat_id=u['telegram_id'])
+    try:
+      await message.send_copy(chat_id=u['telegram_id'], reply_markup=main_menu_buttons)
+    except BotBlocked:
+      await deactivate_user(session, telegram_id=u['telegram_id'])
+    #time.sleep(1)
+  await session.commit()
   await message.answer('mailing finished')
   await state.reset_state()
 
