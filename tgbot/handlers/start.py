@@ -78,9 +78,9 @@ async def start_problem(message: Message, state: FSMContext):
 def register_start(dp: Dispatcher):
     dp.register_message_handler(start, commands=["start"], state="*")
     dp.register_message_handler(start_1, state=Start.s1)
-    dp.register_message_handler(start_2, text=data.start._1.kb[0][0], state=Start.s2)
+    dp.register_message_handler(start_2, text=data.start._1.kb[0][1], state=Start.s2)
     dp.register_message_handler(start_3, state=Start.s3)
-    dp.register_message_handler(start_3, text=data.start._1.kb[0][1], state=Start.s2)
+    dp.register_message_handler(start_3, text=data.start._1.kb[0][0], state=Start.s2)
     dp.register_message_handler(start_4, state=Start.s4)
     dp.register_message_handler(start_5, state=Start.s5)
     dp.register_message_handler(start_6, state=Start.s6)

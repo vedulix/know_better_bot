@@ -96,7 +96,7 @@ async def dont(message: types.Message, state: FSMContext):
   await message.answer(data.know_better.questions.dont, reply_markup=next_question)
 
 def register_know_better(dp: Dispatcher):
-  dp.register_message_handler(choose, text=data.main_menu.kb[0])
+  dp.register_message_handler(choose, text=data.main_menu.kb[1])
   #dp.register_message_handler(choose, text=data.know_better.sub_questions.work.kb[1], state=Know)
   dp.register_message_handler(another_option, text=data.know_better.sub_questions.work.kb[1], state=Know)
 #  dp.register_message_handler(choose, text=data.know_better.sub_questions.work_ans.kb[1], state=Know)

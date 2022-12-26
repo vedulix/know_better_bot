@@ -109,28 +109,28 @@ async def see_ans(message: types.Message, state: FSMContext, session: AsyncSessi
         html += f"> {i}<br>"
       html += "<br>"
     link = to_telegraph_link(page_name=category_name, html_content=html)
-    await message.answer(f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>')
+    await message.answer(f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>\n\n{data.jour.sub.work_ans.and_ans}')
     time.sleep(3)
   else:
     await message.answer(data.jour.sub.work_ans.zero)
 
 
 def register_journaling(dp: Dispatcher):
-  dp.register_message_handler(choose, text=data.main_menu.kb[1])
-  dp.register_message_handler(choose, text=data.jour.year.hi.kb[1][2], state=Jour.year_hi_)
+  dp.register_message_handler(choose, text=data.main_menu.kb[0])
+  dp.register_message_handler(choose, text=data.jour.year.hi.kb[0][2], state=Jour.year_hi_)
 
   dp.register_message_handler(myself, text=data.jour.choose.kb[0], state=Jour.choose)
   dp.register_message_handler(year_hi, text=data.jour.choose.kb[1], state=Jour.choose)
   dp.register_message_handler(year_hi, text=data.jour.year.why_1.kb[1][0], state=Jour.year_why1)
-  dp.register_message_handler(year_to, text=data.jour.year.hi.kb[1][0], state=Jour.year_hi_)
-  dp.register_message_handler(year_why_1, text=data.jour.year.hi.kb[0][0], state=Jour.year_hi_)
+  dp.register_message_handler(year_to, text=data.jour.year.hi.kb[0][0], state=Jour.year_hi_)
+  dp.register_message_handler(year_why_1, text=data.jour.year.hi.kb[1][0], state=Jour.year_hi_)
   dp.register_message_handler(year_why_2, state=Jour.year_why1)
   dp.register_message_handler(year_why_3, state=Jour.year_why2)
   dp.register_message_handler(year_why_4, state=Jour.year_why3)
 
 
   dp.register_message_handler(see_ans, text=data.jour.myself.hi.kb[1], state=Jour.work_ans)
-  dp.register_message_handler(see_ans, text=data.jour.year.hi.kb[1][1], state=Jour.year_hi_)
+  dp.register_message_handler(see_ans, text=data.jour.year.hi.kb[0][1], state=Jour.year_hi_)
 
 
   dp.register_message_handler(work_ans, text=data.jour.sub.hi.kb[0], state=Jour.work_ans)
