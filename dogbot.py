@@ -5,8 +5,10 @@ from datetime import datetime
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from aiogram.dispatcher import FSMContext
 from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler_di import ContextSchedulerDecorator
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from tgbot.config import load_config, Config
 from tgbot.filters.admin import AdminFilter
@@ -30,6 +32,9 @@ from tgbot.middlewares.throttling import ThrottlingMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from tgbot.misc.scheduler_jobs import send_message_to_admin
+import warnings
+
+from pytz_deprecation_shim import PytzUsageWarning
 
 logger = logging.getLogger(__name__)
 
@@ -83,9 +88,13 @@ async def main():
             host=config.redis.host, port=config.redis.port, password=config.redis.password
         )
     }
+    warnings.filterwarnings(action="ignore", category=PytzUsageWarning)
     scheduler = ContextSchedulerDecorator(AsyncIOScheduler(jobstores=job_stores))
     scheduler.ctx.add_instance(bot, declared_class=Bot)
+    scheduler.ctx.add_instance(dp, declared_class=Dispatcher)
     scheduler.ctx.add_instance(config, declared_class=Config)
+    scheduler.ctx.add_instance(session_pool, declared_class=AsyncSession)
+#    scheduler.ctx.add_instance(state, declared_class=FSMContext)
 
     bot['config'] = config
 

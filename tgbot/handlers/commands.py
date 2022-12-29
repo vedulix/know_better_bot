@@ -1,6 +1,8 @@
+from datetime import datetime
 import time
+from typing import List
 
-from aiogram import Dispatcher, types
+from aiogram import Dispatcher, types, Bot
 from aiogram.dispatcher import FSMContext
 from aiogram.utils.exceptions import BotBlocked, UserDeactivated
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -20,6 +22,19 @@ async def set_mailing(message: types.Message, config: Config  ):
 async def cancel_mailing(message: types.Message, state: FSMContext):
   await message.answer('canceled, you in main menu')
   await state.reset_state()
+
+
+async def safety_send_notif(bot: Bot, users: List, text, markup, state: FSMContext, session: AsyncSession):
+  for u in users:
+    try:
+      await bot.send_message(chat_id=u['telegram_id'], text=text, reply_markup=markup)
+    except Exception as ex:
+      print(f"{datetime.datetime.now()} -- {ex} -- {u['telegram_id']}")
+      await deactivate_user(session, telegram_id=u['telegram_id'])
+
+
+  await session.commit()
+  print('mailing finished')
 
 
 async def mailing(message: types.Message, state: FSMContext, session: AsyncSession):

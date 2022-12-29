@@ -2,6 +2,7 @@ import time
 
 from tgbot.infrastucture.database.functions.users import load_questions, write_answer, get_last_answers, \
   count_questions_in_category
+from tgbot.keyboards.inline import answers_page_kb
 from tgbot.keyboards.reply import choose_jour, self_hi, work_ans_kb, sub_hi, mkb, year_hi_kb
 from tgbot.locals.load_json import data
 import random
@@ -13,6 +14,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from tgbot.misc.myfuncs import to_telegraph_link
 from tgbot.misc.states import Jour
+from aiogram.types import InlineKeyboardButton as IKB
 
 
 async def back(message: types.Message, state: FSMContext, session: AsyncSession):
@@ -109,7 +111,7 @@ async def see_ans(message: types.Message, state: FSMContext, session: AsyncSessi
         html += f"> {i}<br>"
       html += "<br>"
     link = to_telegraph_link(page_name=category_name, html_content=html)
-    await message.answer(f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>\n\n{data.jour.sub.work_ans.and_ans}')
+    await message.answer(f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>\n\n{data.jour.sub.work_ans.and_ans}', reply_markup=answers_page_kb.add(IKB(text="Посмотреть ответы", url=link)))
     time.sleep(3)
   else:
     await message.answer(data.jour.sub.work_ans.zero)
