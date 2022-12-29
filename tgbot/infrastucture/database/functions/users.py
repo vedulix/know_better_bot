@@ -35,6 +35,21 @@ async def select_all_users(session):
     return result_dict
 
 
+async def select_scheduler_users(session, hour):
+    stmt = select(User.telegram_id).filter_by(active=True).filter_by(reflection_time=hour)
+    result = await session.execute(stmt)
+    rows = result.all()
+    result_dict = [u._asdict() for u in rows]
+    return result_dict
+
+
+async def select_daily_question(session, category):
+    stmt = select(Questions.id, Questions.question, Questions.category).where(Questions.id > 1647).filter_by(category=category).order_by(func.random())
+    result = await session.execute(stmt)
+    rows = result.all()
+    result_dict = [u._asdict() for u in rows]
+    return result_dict[0]
+
 async def write_answer(session, telegram_id, question_id, category, answer):
     stmt = insert(Answers).values(
         telegram_id=telegram_id,
@@ -51,8 +66,6 @@ async def load_questions(session, category, random=True):
     result = await session.execute(stmt)
     rows = result.all()
     result_dict = [u._asdict() for u in rows]
-   # rows = [dict(row) for row in rows]
-   # print(result_dict)
     return result_dict
 
 

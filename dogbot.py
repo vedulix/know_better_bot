@@ -31,7 +31,7 @@ from tgbot.middlewares.scheduler import SchedulerMiddleware
 from tgbot.middlewares.throttling import ThrottlingMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from tgbot.misc.scheduler_jobs import send_message_to_admin
+from tgbot.misc.scheduler_jobs import send_daily_question
 import warnings
 
 from pytz_deprecation_shim import PytzUsageWarning
@@ -67,7 +67,7 @@ def register_all_handlers(dp):
     register_problem(dp)
 
 def set_scheduled_jobs(scheduler, *args, **kwargs):
-    scheduler.add_job(send_message_to_admin, "interval", seconds=5)
+    scheduler.add_job(send_daily_question, "interval", seconds=30)
 
 async def main():
     logging.basicConfig(
@@ -89,12 +89,12 @@ async def main():
         )
     }
     warnings.filterwarnings(action="ignore", category=PytzUsageWarning)
-    scheduler = ContextSchedulerDecorator(AsyncIOScheduler(jobstores=job_stores))
+    scheduler = ContextSchedulerDecorator(AsyncIOScheduler())
     scheduler.ctx.add_instance(bot, declared_class=Bot)
     scheduler.ctx.add_instance(dp, declared_class=Dispatcher)
     scheduler.ctx.add_instance(config, declared_class=Config)
     scheduler.ctx.add_instance(session_pool, declared_class=AsyncSession)
-#    scheduler.ctx.add_instance(state, declared_class=FSMContext)
+    logging.getLogger('apscheduler.executors.default').setLevel(logging.WARNING)
 
     bot['config'] = config
 

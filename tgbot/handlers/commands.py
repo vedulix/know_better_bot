@@ -24,17 +24,19 @@ async def cancel_mailing(message: types.Message, state: FSMContext):
   await state.reset_state()
 
 
-async def safety_send_notif(bot: Bot, users: List, text, markup, state: FSMContext, session: AsyncSession):
+async def safety_send_notif(bot: Bot, dp: Dispatcher, users: List, data, markup, session: AsyncSession):
   for u in users:
     try:
-      await bot.send_message(chat_id=u['telegram_id'], text=text, reply_markup=markup)
+      state = dp.current_state(user=u['telegram_id'])
+      await state.update_data(daily_data=data)
+
+      await bot.send_message(chat_id=u['telegram_id'], text=data['question'], reply_markup=markup)
     except Exception as ex:
       print(f"{datetime.now()} -- {ex} -- {u['telegram_id']}")
       await deactivate_user(session, telegram_id=u['telegram_id'])
 
 
   await session.commit()
-  print('mailing finished')
 
 
 async def mailing(message: types.Message, state: FSMContext, session: AsyncSession):
@@ -45,8 +47,6 @@ async def mailing(message: types.Message, state: FSMContext, session: AsyncSessi
   for u in users:
     try:
       await message.send_copy(chat_id=u['telegram_id'], reply_markup=main_menu_buttons)
- #   except BotBlocked or UserDeactivated:
- #     await deactivate_user(session, telegram_id=u['telegram_id'])
     except Exception as ex:
       await message.answer(f"{ex} {u['telegram_id']}")
       await deactivate_user(session, telegram_id=u['telegram_id'])
