@@ -29,7 +29,7 @@ async def safety_send_notif(bot: Bot, users: List, text, markup, state: FSMConte
     try:
       await bot.send_message(chat_id=u['telegram_id'], text=text, reply_markup=markup)
     except Exception as ex:
-      print(f"{datetime.datetime.now()} -- {ex} -- {u['telegram_id']}")
+      print(f"{datetime.now()} -- {ex} -- {u['telegram_id']}")
       await deactivate_user(session, telegram_id=u['telegram_id'])
 
 

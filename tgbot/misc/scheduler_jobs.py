@@ -1,9 +1,11 @@
-from aiogram import Bot
+from aiogram import Bot, Dispatcher
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from tgbot.config import Config
+from tgbot.handlers.commands import safety_send_notif
 
 
-async def send_message_to_admin(bot: Bot, config: Config):
-  print('print')
-  for admin_id in config.tg_bot.test_ids:
-    await bot.send_message(text="Сообщение по таймеру", chat_id=admin_id)
+async def send_message_to_admin(bot: Bot, config: Config, dp: Dispatcher, session_pool: AsyncSession):
+ # select users...
+  #safety_send_notif(bot=bot, )
+  ...
