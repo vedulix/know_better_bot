@@ -13,7 +13,7 @@ class User(Base):
     language_code = Column(VARCHAR(10), nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now())
     active = Column(Boolean, unique=False, default=True)
-    reflection_time = Column(Integer, default="19")
+    reflection_time = Column(VARCHAR(10), default="19")
 
     referrer_id = Column(BIGINT, ForeignKey('users.telegram_id', ondelete='SET NULL'))
 
