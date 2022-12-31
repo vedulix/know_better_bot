@@ -27,6 +27,11 @@ async def deactivate_user(session, telegram_id):
     await session.execute(stmt)
 
 
+async def edit_notif_user(session, telegram_id, setting):
+    stmt = update(User).where(User.telegram_id == telegram_id).values(reflection_time=setting)
+    await session.execute(stmt)
+
+
 async def select_all_users(session):
     stmt = select(User.telegram_id).filter_by(active=True)
     result = await session.execute(stmt)

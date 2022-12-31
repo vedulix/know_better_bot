@@ -1,3 +1,4 @@
+import random
 from datetime import datetime
 import time
 from typing import List
@@ -9,8 +10,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from tgbot.config import Config
 from tgbot.infrastucture.database.functions.users import select_all_users, deactivate_user
+from tgbot.keyboards.inline import timelist_kb
 from tgbot.keyboards.reply import main_menu_buttons
-from tgbot.locals.load_json import data
+from tgbot.locals.load_json import data as my_data
 from tgbot.misc.states import Mail
 
 
@@ -28,9 +30,10 @@ async def safety_send_notif(bot: Bot, dp: Dispatcher, users: List, data, markup,
   for u in users:
     try:
       state = dp.current_state(user=u['telegram_id'])
-      await state.update_data(daily_data=data)
+  #    await state.reset_state()
 
-      await bot.send_message(chat_id=u['telegram_id'], text=data['question'], reply_markup=markup)
+      await state.update_data(daily_data=data)
+      await bot.send_message(chat_id=u['telegram_id'], text=f"{data['question']} {random.choice(my_data.emoji)}", reply_markup=markup)
     except Exception as ex:
       print(f"{datetime.now()} -- {ex} -- {u['telegram_id']}")
       await deactivate_user(session, telegram_id=u['telegram_id'])
@@ -48,7 +51,6 @@ async def mailing(message: types.Message, state: FSMContext, session: AsyncSessi
     try:
       await message.send_copy(chat_id=u['telegram_id'], reply_markup=main_menu_buttons)
     except Exception as ex:
-      await message.answer(f"{ex} {u['telegram_id']}")
       await deactivate_user(session, telegram_id=u['telegram_id'])
 
     #time.sleep(1)
@@ -56,7 +58,12 @@ async def mailing(message: types.Message, state: FSMContext, session: AsyncSessi
   await message.answer('mailing finished')
 
 
+async def setting_time(message: types.Message, state: FSMContext, session: AsyncSession):
+  await message.answer(my_data.jour.notif.change_time_text, reply_markup=timelist_kb)
+
 def register_commands(dp: Dispatcher):
   dp.register_message_handler(set_mailing, commands=["mail"], state="*")
   dp.register_message_handler(cancel_mailing, commands=["cancel"], state=Mail.wait)
   dp.register_message_handler(mailing, state=Mail.wait)
+  dp.register_message_handler(setting_time, commands=['settings', 'set_notification', 'notification'], state="*")
+

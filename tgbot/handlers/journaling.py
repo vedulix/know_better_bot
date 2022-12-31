@@ -2,15 +2,15 @@ import time
 
 from tgbot.handlers.main_menu import to_main_menu
 from tgbot.infrastucture.database.functions.users import load_questions, write_answer, get_last_answers, \
-  count_questions_in_category
-from tgbot.keyboards.inline import daily_back_kb, timelist_kb
+  count_questions_in_category, edit_notif_user
+from tgbot.keyboards.inline import daily_back_kb, timelist_kb, daily_ref_kb, daily_ref_only_write_kb
 from tgbot.keyboards.reply import choose_jour, self_hi, work_ans_kb, sub_hi, mkb, year_hi_kb, main_menu_buttons
 from tgbot.locals.load_json import data
 import random
 
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import state
+from aiogram.dispatcher.filters import state, Text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from tgbot.misc.myfuncs import to_telegraph_link
@@ -57,6 +57,8 @@ async def myself_notif(message: types.Message, state: FSMContext, session: Async
 
 async def year_hi(message: types.Message, state: FSMContext, session: AsyncSession):
   await message.answer(data.jour.year.hi.text, reply_markup=mkb(data.jour.year.hi.kb))
+  await state.update_data(category='year')
+  await state.update_data(category_name=data.jour.choose.kb[1])
   await Jour.year_hi_.set()
 
 
@@ -147,11 +149,24 @@ async def back_daily_ref(call: CallbackQuery, state: FSMContext):
   await state.reset_state()
 
 async def change_daily_ref_time(call: CallbackQuery, state: FSMContext):
-  await call.message.edit_reply_markup(reply_markup=timelist_kb)
-  print(call.data[:2])
+  await call.message.answer(data.jour.notif.change_time_text, reply_markup=timelist_kb)
+  await call.message.edit_reply_markup(reply_markup=daily_ref_only_write_kb)
 
-async def select_time(call: CallbackQuery, state: FSMContext):
-  print(call.data, call.message.text)
+
+async def select_time(call: CallbackQuery, state: FSMContext, session: AsyncSession):
+  hour = call.data[4:]
+  await edit_notif_user(session, telegram_id=call.from_user.id, setting=int(hour))
+  await session.commit()
+
+  await call.message.edit_reply_markup(reply_markup=None)
+  await call.message.edit_text(data.jour.notif.change_time_ok_text.format(hour))
+
+
+async def off_notif(call: CallbackQuery, state: FSMContext, session: AsyncSession):
+  await call.message.edit_reply_markup(reply_markup=None)
+  await call.message.edit_text(data.jour.notif.off_notif_text)
+  await edit_notif_user(session, telegram_id=call.from_user.id, setting=None)
+  await session.commit()
 
 def register_journaling(dp: Dispatcher):
   dp.register_message_handler(choose, text=data.main_menu.kb[0])
@@ -179,7 +194,8 @@ def register_journaling(dp: Dispatcher):
   dp.register_message_handler(choose, text=data.jour.myself.hi.kb[2], state=Jour.work_ans)
 
   dp.register_message_handler(work_ans, state=Jour.work_ans)
-  dp.register_callback_query_handler(take_daily_ans, text="write_daily_ref_ans")
+  dp.register_callback_query_handler(take_daily_ans, text="write_daily_ref_ans", state="*")
   dp.register_callback_query_handler(back_daily_ref, text="back_daily_ref", state=Jour.work_ans)
-  dp.register_callback_query_handler(change_daily_ref_time, text="change_daily_ref_time")
-  dp.register_callback_query_handler(select_time, text="time")
+  dp.register_callback_query_handler(change_daily_ref_time, text="change_daily_ref_time", state="*")
+  dp.register_callback_query_handler(select_time, Text(startswith='time'), state="*")
+  dp.register_callback_query_handler(off_notif, text='off_notif', state="*")
