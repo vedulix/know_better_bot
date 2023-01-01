@@ -33,7 +33,7 @@ async def safety_send_notif(bot: Bot, dp: Dispatcher, users: List, data, markup,
   #    await state.reset_state()
 
       await state.update_data(daily_data=data)
-      await bot.send_message(chat_id=u['telegram_id'], text=f"{data['question']} {random.choice(my_data.emoji)}", reply_markup=markup)
+      await bot.send_message(chat_id=u['telegram_id'], text=f"{data['question']} {random.choice(my_data.emoji)}", reply_markup=markup, disable_notification=True)
     except Exception as ex:
       print(f"{datetime.now()} -- {ex} -- {u['telegram_id']}")
       await deactivate_user(session, telegram_id=u['telegram_id'])

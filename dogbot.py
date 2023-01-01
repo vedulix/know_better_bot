@@ -67,7 +67,7 @@ def register_all_handlers(dp):
     register_problem(dp)
 
 def set_scheduled_jobs(scheduler, *args, **kwargs):
-    scheduler.add_job(send_daily_question, 'cron', day_of_week='0, 2, 4, 5, 6', hour='*', minute=11, jitter=599)
+    scheduler.add_job(send_daily_question, 'cron', day_of_week='0-6', hour='*', minute=11, jitter=599)
     #scheduler.add_job(send_daily_question, 'interval', seconds=5)
 
 async def main():
