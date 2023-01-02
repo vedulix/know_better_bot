@@ -15,4 +15,4 @@ async def send_daily_question(bot: Bot, config: Config, dp: Dispatcher, session_
     users = await select_scheduler_users(session=session, hour=hour)
     daily_data = await select_daily_question(session, category='myself')
 
-    await safety_send_notif(bot=bot, dp=dp, users=users, data=daily_data, markup=daily_ref_kb, session=session)
+    await safety_send_notif(bot=bot, dp=dp, users=users, data=daily_data, text=None, markup=daily_ref_kb, session=session)

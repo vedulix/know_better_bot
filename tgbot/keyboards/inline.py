@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup as IKM, InlineKeyboardButton as IKB
 from tgbot.locals.load_json import data
 
-#pear_keyboard = IKM(inline_keyboard=[[IKB(text="Посмотреть ответы", url="https://rozetka.com.ua/champion_a00225/p27223057")]])
+#pear_keyboard = IKM(inline_keyboard=[[IKB(text="Посмотреть ответы", url="https:")]])
 daily_ref_kb = IKM(inline_keyboard=[
   [
     IKB(text=data.jour.notif.write, callback_data="write_daily_ref_ans"),
@@ -14,6 +14,8 @@ daily_ref_only_write_kb = IKM(inline_keyboard=[
     IKB(text=data.jour.notif.write, callback_data="write_daily_ref_ans")
   ]
   ])
+
+support_link_kb=IKM(inline_keyboard=[[IKB(text=data.support.inline_text, url=data.support.url)]])
 
 
 daily_back_kb = IKM(inline_keyboard=[
