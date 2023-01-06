@@ -66,8 +66,6 @@ async def year_to(message: types.Message, state: FSMContext, session: AsyncSessi
   q = await load_questions(session, 'year', random=False)
 
   await state.update_data(datas=q)
-  await state.update_data(category='year')
-  await state.update_data(category_name=data.jour.choose.kb[1])
   state_name = Jour.year_hi_
   await state.update_data(last_state=state_name)
   await state.update_data(last_func=year_hi)

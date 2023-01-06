@@ -40,7 +40,7 @@ async def safety_send_notif(bot: Bot, dp: Dispatcher, users: List, data, text, m
       await bot.send_message(chat_id=u['telegram_id'], text=f"{text} {random.choice(my_data.emoji)}",
                              reply_markup=markup, disable_notification=True)
     except Exception as ex:
-      print(f"{datetime.now()} -- {ex} -- {u['telegram_id']}")
+      #print(f"{datetime.now()} -- {ex} -- {u['telegram_id']}")
       await deactivate_user(session, telegram_id=u['telegram_id'])
 
   await session.commit()
