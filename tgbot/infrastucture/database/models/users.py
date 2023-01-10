@@ -12,6 +12,8 @@ class User(Base):
     full_name = Column(VARCHAR(255), nullable=False)
     language_code = Column(VARCHAR(10), nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now())
+    last_activity = Column(TIMESTAMP)
+
     active = Column(Boolean, unique=False, default=True)
     reflection_time = Column(Integer, server_default='19')
 

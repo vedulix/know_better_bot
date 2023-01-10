@@ -27,6 +27,7 @@ from tgbot.infrastucture.database.functions.setup import create_session_pool
 from tgbot.middlewares.database import DatabaseMiddleware
 from tgbot.middlewares.db import DbMiddleware
 from tgbot.middlewares.environment import EnvironmentMiddleware
+from tgbot.middlewares.last_activity import DAUMiddleware
 from tgbot.middlewares.scheduler import SchedulerMiddleware
 from tgbot.middlewares.throttling import ThrottlingMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -44,6 +45,7 @@ def register_all_middlewares(dp, config, session_pool, scheduler):
     dp.setup_middleware(DatabaseMiddleware(session_pool=session_pool))
     dp.setup_middleware(ThrottlingMiddleware())
     dp.setup_middleware(SchedulerMiddleware(scheduler))
+    dp.setup_middleware(DAUMiddleware(session_pool=session_pool))
 
 
 

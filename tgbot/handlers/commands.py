@@ -66,8 +66,18 @@ async def setting_time(message: types.Message, state: FSMContext, session: Async
   await message.answer(my_data.jour.notif.change_time_text, reply_markup=timelist_kb)
 
 
+async def send_emotions(message: types.Message):
+  await message.answer_photo(my_data.emotions_photo.link, caption=my_data.emotions_photo.caption)
+
+
+async def send_emotions(message: types.Message):
+  await message.answer_photo(my_data.states_photo.link, caption=my_data.states_photo.caption)
+
+
 def register_commands(dp: Dispatcher):
   dp.register_message_handler(set_mailing, commands=["mail"], state="*")
   dp.register_message_handler(cancel_mailing, commands=["cancel"], state=Mail.wait)
   dp.register_message_handler(mailing, state=Mail.wait)
   dp.register_message_handler(setting_time, commands=['settings', 'set_notification', 'notification'], state="*")
+  dp.register_message_handler(send_emotions, commands=["feelings"], state="*")
+  dp.register_message_handler(send_emotions, commands=["states"], state="*")
