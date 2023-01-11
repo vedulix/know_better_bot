@@ -18,4 +18,4 @@ class User(Base):
     reflection_time = Column(Integer, server_default='19')
 
     referrer_id = Column(BIGINT, ForeignKey('users.telegram_id', ondelete='SET NULL'))
-
+    deep_link = Column(VARCHAR(255), server_default=None)

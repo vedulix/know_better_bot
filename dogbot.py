@@ -87,7 +87,6 @@ async def main():
     job_stores = {
         "default": RedisJobStore(
             jobs_key="dispatched_trips_jobs", run_times_key="dispatched_trips_running",
-            # параметры host и port необязательны, для примера показано как передавать параметры подключения
             host=config.redis.host, port=config.redis.port, password=config.redis.password
         )
     }

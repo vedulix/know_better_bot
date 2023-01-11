@@ -376,6 +376,7 @@
     "🐳",
     "🎈",
     "☀️",
+    "🤍",
     "\uD83C\uDF3A",
     "\uD83C\uDF3C", "\uD83D\uDC9C", "🍁", "🍂", "🍃", "🌾", "🍇", "🍈",  "🍉",  "🍊", "🍋", "🥑", "🌼", "🌹"
   ],
@@ -410,5 +411,9 @@
   "states_photo": {
     "link": "https://telegra.ph/file/4664d2b25affb805e51f7.png",
     "caption": "\uD83E\uDD32 Вот список основных состояний"
+  },
+  "needs_photo": {
+    "link": "https://telegra.ph/file/4c8619d92005844c8e139.png",
+    "caption": "\uD83E\uDD32 Вот список основных потребностей"
   }
 }

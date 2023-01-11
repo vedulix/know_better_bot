@@ -70,8 +70,12 @@ async def send_emotions(message: types.Message):
   await message.answer_photo(my_data.emotions_photo.link, caption=my_data.emotions_photo.caption)
 
 
-async def send_emotions(message: types.Message):
+async def send_states(message: types.Message):
   await message.answer_photo(my_data.states_photo.link, caption=my_data.states_photo.caption)
+
+
+async def send_needs(message: types.Message):
+  await message.answer_photo(my_data.needs_photo.link, caption=my_data.needs_photo.caption)
 
 
 def register_commands(dp: Dispatcher):
@@ -80,4 +84,5 @@ def register_commands(dp: Dispatcher):
   dp.register_message_handler(mailing, state=Mail.wait)
   dp.register_message_handler(setting_time, commands=['settings', 'set_notification', 'notification'], state="*")
   dp.register_message_handler(send_emotions, commands=["feelings"], state="*")
-  dp.register_message_handler(send_emotions, commands=["states"], state="*")
+  dp.register_message_handler(send_states, commands=["states"], state="*")
+  dp.register_message_handler(send_needs, commands=["needs"], state="*")

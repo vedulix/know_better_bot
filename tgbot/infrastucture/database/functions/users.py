@@ -11,13 +11,14 @@ def object_as_dict(obj):
             for c in inspect(obj).mapper.column_attrs}
 
 
-async def create_user(session, telegram_id, full_name, username, language_code, referrer_id=None):
+async def create_user(session, telegram_id, full_name, username, language_code, referrer_id=None, deep_link=None):
     stmt = insert(User).values(
         telegram_id=telegram_id,
         full_name=full_name,
         username=username,
         language_code=language_code,
         referrer_id=referrer_id,
+        deep_link=deep_link
     )
     await session.execute(stmt)
 

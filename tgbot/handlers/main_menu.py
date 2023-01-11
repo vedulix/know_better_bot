@@ -19,7 +19,7 @@ async def about(message: types.Message, state: FSMContext):
   #await main_menu_states.about.set()
 
 async def to_main_menu(message: types.Message, state: FSMContext):
-  await message.answer(message.from_user.first_name + ", " + random.choice(data.main_menu.phrases) + " " + random.choice(data.emoji) + data.main_menu.text, reply_markup=main_menu_buttons)
+  await message.answer(message.from_user.first_name + ", " + random.choice(data.main_menu.phrases) + " " + random.choice(data.emoji) + data.main_menu.text, reply_markup=main_menu_buttons, disable_web_page_preview=True)
   await state.reset_state()
 
 
