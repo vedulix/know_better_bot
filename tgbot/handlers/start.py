@@ -21,7 +21,6 @@ async def start(message: Message, state: FSMContext, session: AsyncSession):
         deep_link = None
     user = await session.get(User, message.from_user.id)
     if not user:
-        print('s')
         await create_user(
             session,
             telegram_id=message.from_user.id,
