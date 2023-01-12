@@ -82,7 +82,7 @@ async def get_last_answers(session, telegram_id, category):
         Answers,
         Answers.question_id == Questions.id
     ).group_by(Questions.question).filter_by(
-        telegram_id=telegram_id).order_by(func.max(Answers.created_at).asc())
+        telegram_id=telegram_id).order_by(func.max(Answers.created_at).desc())
     result = await session.execute(stmt)
     rows = result.all()
     result_dict = [u._asdict() for u in rows]

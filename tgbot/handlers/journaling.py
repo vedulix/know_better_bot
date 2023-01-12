@@ -133,6 +133,7 @@ async def see_ans(message: types.Message, state: FSMContext, session: AsyncSessi
   else:
     await message.answer(data.jour.sub.work_ans.zero)
 
+
 async def take_daily_ans(call: CallbackQuery, state: FSMContext, session: AsyncSession):
   text = call.message.text + "\n\n" + data.jour.write_answer.text
   await call.message.edit_text(text)
