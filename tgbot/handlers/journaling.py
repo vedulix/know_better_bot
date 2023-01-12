@@ -13,7 +13,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import state, Text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from tgbot.misc.myfuncs import to_telegraph_link
+from tgbot.misc.myfuncs import to_telegraph_link, delete_commands
 from tgbot.misc.states import Jour
 from aiogram.types import InlineKeyboardMarkup as IKM, InlineKeyboardButton as IKB, CallbackQuery
 
@@ -123,7 +123,7 @@ async def see_ans(message: types.Message, state: FSMContext, session: AsyncSessi
   ans = await get_last_answers(session, telegram_id=message.from_user.id, category=category)
   if len(ans)>0:
     for row in ans:
-      html += f"<i>{row['question']}</i><br>"
+      html += f"<i>{delete_commands(row['question'])}</i><br>"
       for i in row['array_agg']:
         html += f"> {i}<br>"
       html += "<br>"
