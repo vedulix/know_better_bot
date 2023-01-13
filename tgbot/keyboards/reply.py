@@ -23,7 +23,7 @@ work_hi_kb = RKM(resize_keyboard=True).add(kb(data.know_better.sub_questions.hi.
 work_kb = RKM(resize_keyboard=True).add(kb(data.know_better.sub_questions.work.kb[0]), kb(data.know_better.sub_questions.work.kb[1])).add(kb(data.know_better.sub_questions.work.kb[2]))
 
 #journaling keyboards
-choose_jour = RKM(resize_keyboard=True).add(kb(data.jour.choose.kb[0]), kb(data.jour.choose.kb[1])).add(kb(data.main_menu.text_to))
+choose_jour = RKM(resize_keyboard=True).add(kb(data.jour.choose.kb[2])).add(kb(data.jour.choose.kb[0]), kb(data.jour.choose.kb[1])).add(kb(data.main_menu.text_to))
 self_hi = RKM(resize_keyboard=True).add(kb(data.jour.myself.hi.kb[0]), kb(data.jour.myself.hi.kb[1])).add(kb(data.jour.myself.hi.kb[2]))
 sub_hi = RKM(resize_keyboard=True).add(kb(data.jour.sub.hi.kb[0]), kb(data.jour.sub.hi.kb[1])).add(kb(data.jour.sub.hi.kb[2]))
 year_hi_kb=mkb(data.jour.year.hi.kb)

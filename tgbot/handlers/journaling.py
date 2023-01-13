@@ -40,18 +40,31 @@ async def myself(message: types.Message, state: FSMContext, session: AsyncSessio
   await Jour.work_ans.set()
 
 
+async def daily(message: types.Message, state: FSMContext, session: AsyncSession):
+  q = await load_questions(session, 'daily', random=True)
+
+  await state.update_data(datas=q)
+  await state.update_data(category='daily')
+  await state.update_data(category_name=data.jour.choose.kb[2])
+  state_name = Jour.work_ans
+  await state.update_data(last_state=state_name)
+  await state.update_data(last_func=daily)
+  await message.answer(data.jour.daily.hi.text, reply_markup=self_hi)
+  await Jour.work_ans.set()
+
+
 async def myself_notif(message: types.Message, state: FSMContext, session: AsyncSession):
-  q = await load_questions(session, 'myself', random=True)
+  q = await load_questions(session, 'daily', random=True)
   async with state.proxy() as datas:
     if len(datas['daily_data'])>0:
       q = [datas['daily_data']] + q
       datas['daily_data'] = []
   await state.update_data(datas=q)
-  await state.update_data(category='myself')
-  await state.update_data(category_name=data.jour.choose.kb[0])
+  await state.update_data(category='daily')
+  await state.update_data(category_name=data.jour.choose.kb[2])
   state_name = Jour.work_ans
   await state.update_data(last_state=state_name)
-  await state.update_data(last_func=myself)
+  await state.update_data(last_func=daily)
   await Jour.work_ans.set()
 
 
@@ -172,6 +185,7 @@ def register_journaling(dp: Dispatcher):
   dp.register_message_handler(choose, text=data.jour.year.hi.kb[0][2], state=Jour.year_hi_)
 
   dp.register_message_handler(myself, text=data.jour.choose.kb[0], state=Jour.choose)
+  dp.register_message_handler(daily, text=data.jour.choose.kb[2], state=Jour.choose)
   dp.register_message_handler(year_hi, text=data.jour.choose.kb[1], state=Jour.choose)
   dp.register_message_handler(year_hi, text=data.jour.year.why_1.kb[1][0], state=Jour.year_why1)
   dp.register_message_handler(year_to, text=data.jour.year.hi.kb[0][0], state=Jour.year_hi_)

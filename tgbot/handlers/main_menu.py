@@ -28,6 +28,6 @@ def register_main_menu(dp: Dispatcher):
   dp.register_message_handler(recommendations, text=data.main_menu.kb[2])
   dp.register_message_handler(to_main_menu, text=data.main_menu.text_to, state=main_menu_states.rec)
   dp.register_message_handler(to_main_menu, text=data.about_bot.kb[0], state=main_menu_states.about)
-  dp.register_message_handler(to_main_menu, commands=["menu", "help"], state="*")
+  dp.register_message_handler(to_main_menu, commands=["menu", "help", "end"], state="*")
   dp.register_message_handler(to_main_menu, text=data.main_menu.text_to, state="*")
 

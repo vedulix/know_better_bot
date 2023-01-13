@@ -50,7 +50,7 @@ async def select_scheduler_users(session, hour):
 
 
 async def select_daily_question(session, category):
-    stmt = select(Questions.id, Questions.question, Questions.category).where(Questions.id > 1647).filter_by(category=category).order_by(func.random())
+    stmt = select(Questions.id, Questions.question, Questions.category).filter_by(category=category).order_by(func.random())
     result = await session.execute(stmt)
     rows = result.all()
     result_dict = [u._asdict() for u in rows]
