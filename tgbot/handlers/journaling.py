@@ -13,7 +13,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import state, Text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from tgbot.misc.myfuncs import to_telegraph_link, delete_commands
+from tgbot.misc.myfuncs import to_telegraph_link, delete_commands, nice_date
 from tgbot.misc.states import Jour
 from aiogram.types import InlineKeyboardMarkup as IKM, InlineKeyboardButton as IKB, CallbackQuery
 
@@ -137,11 +137,12 @@ async def see_ans(message: types.Message, state: FSMContext, session: AsyncSessi
   if len(ans)>0:
     for row in ans:
       html += f"<i>{delete_commands(row['question'])}</i><br>"
-      for i in row['array_agg']:
-        html += f"> {i}<br>"
+      for i in range(len(row['array_agg'])):
+        html += f"> {row['array_agg'][i]} ({nice_date(row['array_agg_1'][i])})<br>"
       html += "<br>"
     link = to_telegraph_link(page_name=category_name, html_content=html)
     await message.answer(f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>\n\n{data.jour.sub.work_ans.and_ans}', reply_markup=IKM(inline_keyboard=[[IKB(text="Посмотреть ответы", url=link)]]))
+    
     time.sleep(3)
   else:
     await message.answer(data.jour.sub.work_ans.zero)

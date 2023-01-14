@@ -1,4 +1,4 @@
-from sqlalchemy import insert, select, inspect, func, update
+from sqlalchemy import insert, select, inspect, func, update, extract
 from sqlalchemy.dialects.postgresql import array_agg
 from sqlalchemy.orm import aliased, join
 
@@ -75,17 +75,21 @@ async def load_questions(session, category, random=True):
     return result_dict
 
 
-async def get_last_answers(session, telegram_id, category):
-    stmt = select(Questions.question, array_agg(Answers.answer), func.max(Answers.created_at)).filter_by(
+async def get_last_answers(session, telegram_id, category, last_week=False):
+    stmt = select(Questions.question, array_agg(Answers.answer), array_agg(Answers.created_at), func.max(Answers.created_at)).filter_by(
         category=category
     ).join(
         Answers,
         Answers.question_id == Questions.id
     ).group_by(Questions.question).filter_by(
         telegram_id=telegram_id).order_by(func.max(Answers.created_at).desc())
+    if last_week: stmt = stmt.filter(extract('week', Answers.created_at) == extract('week', func.now()))
     result = await session.execute(stmt)
     rows = result.all()
     result_dict = [u._asdict() for u in rows]
+    for row in result_dict:
+        row['array_agg'] = row['array_agg'][::-1]
+        row['array_agg_1'] = row['array_agg_1'][::-1]
     return result_dict
 
 async def count_questions_in_category(session, category):
