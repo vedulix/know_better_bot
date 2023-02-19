@@ -4,10 +4,13 @@ from tgbot.locals.load_json import data
 #pear_keyboard = IKM(inline_keyboard=[[IKB(text="Посмотреть ответы", url="https:")]])
 daily_ref_kb = IKM(inline_keyboard=[
   [
+    IKB(text=data.jour.notif.change_time, callback_data="change_daily_ref_time"),
+    IKB(text=data.jour.notif.off, callback_data="off_notif"),
+  ],
+  [
     IKB(text=data.jour.notif.write, callback_data="write_daily_ref_ans"),
-    IKB(text=data.jour.notif.change_time, callback_data="change_daily_ref_time")
   ]
-  ])
+])
 
 daily_ref_only_write_kb = IKM(inline_keyboard=[
   [
@@ -57,7 +60,7 @@ timelist_kb = IKM(inline_keyboard=[
     IKB(text="16:00", callback_data="time16"),
   ],
   [
-    IKB(text="Отключить напоминания ✖️", callback_data="off_notif")
+    IKB(text=data.jour.notif.off, callback_data="off_notif")
   ]
 ])
 

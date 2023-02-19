@@ -34,6 +34,6 @@ class DAUMiddleware(BaseMiddleware):
                 await session.commit()
             else:
                 # If the user is in the database, update their "last_activity" field
-                stmt = update(User).where(User.telegram_id == telegram_id).values(last_activity=datetime.now())
+                stmt = update(User).where(User.telegram_id == telegram_id).values(last_activity=datetime.now(), active=True)
                 await session.execute(stmt)
                 await session.commit()

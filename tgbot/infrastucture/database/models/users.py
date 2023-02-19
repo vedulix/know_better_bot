@@ -10,7 +10,7 @@ class User(Base):
     telegram_id = Column(BIGINT, primary_key=True)
     username = Column(VARCHAR(255))
     full_name = Column(VARCHAR(255), nullable=False)
-    language_code = Column(VARCHAR(10), nullable=False)
+    language_code = Column(VARCHAR(10))
     created_at = Column(TIMESTAMP, server_default=func.now())
     last_activity = Column(TIMESTAMP)
 
