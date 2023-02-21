@@ -26,7 +26,7 @@ async def send_daily_question(bot: Bot, config: Config, dp: Dispatcher, session_
 async def send_weekly_ideas(bot: Bot, config: Config, dp: Dispatcher, session_pool: AsyncSession):
   async with session_pool() as session:
     users = await select_all_users(session=session)
-    ideas = await select_weekly_ideas(session, category='rest')
+    ideas = await select_weekly_ideas(session, category='rest_ideas')
     text = random.choice(data.rest.quotes) + "\n\n" + data.rest.suggestion
     c = 1
     for idea in ideas:
