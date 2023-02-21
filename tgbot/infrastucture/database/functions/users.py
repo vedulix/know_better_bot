@@ -3,6 +3,7 @@ from sqlalchemy.dialects.postgresql import array_agg
 from sqlalchemy.orm import aliased, join
 
 from tgbot.infrastucture.database.models.answers import Answers
+from tgbot.infrastucture.database.models.ideas import Ideas
 from tgbot.infrastucture.database.models.questions import Questions
 from tgbot.infrastucture.database.models.users import User
 
@@ -55,6 +56,15 @@ async def select_daily_question(session, category):
     rows = result.all()
     result_dict = [u._asdict() for u in rows]
     return result_dict[0]
+
+
+async def select_weekly_ideas(session, category):
+    stmt = select(Ideas.idea).filter_by(category=category).order_by(func.random()).limit(3)
+    result = await session.execute(stmt)
+    rows = result.all()
+    result_dict = [u._asdict() for u in rows]
+    return result_dict
+
 
 async def write_answer(session, telegram_id, question_id, category, answer):
     stmt = insert(Answers).values(

@@ -21,6 +21,7 @@ from tgbot.handlers.know_better import register_know_better
 from tgbot.handlers.main_menu import register_main_menu
 from tgbot.handlers.nonviolent_communication import register_nonviolent_communication
 from tgbot.handlers.problem import register_problem
+from tgbot.handlers.rest import register_rest
 from tgbot.handlers.start import register_start
 from tgbot.handlers.test import register_test
 from tgbot.infrastucture.database.functions.setup import create_session_pool
@@ -32,7 +33,7 @@ from tgbot.middlewares.scheduler import SchedulerMiddleware
 from tgbot.middlewares.throttling import ThrottlingMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from tgbot.misc.scheduler_jobs import send_daily_question
+from tgbot.misc.scheduler_jobs import send_daily_question, send_weekly_ideas
 import warnings
 
 from pytz_deprecation_shim import PytzUsageWarning
@@ -66,11 +67,14 @@ def register_all_handlers(dp):
     register_nonviolent_communication(dp)
     register_know_better(dp)
     register_journaling(dp)
+    register_rest(dp)
     register_problem(dp)
 
 def set_scheduled_jobs(scheduler, *args, **kwargs):
-    scheduler.add_job(send_daily_question, 'cron', day_of_week='1, 3, 5, 6', hour='*', minute=11, jitter=599)
+    scheduler.add_job(send_daily_question, 'cron', day_of_week='0, 2, 4, 6', hour='*', minute=11, jitter=599)
+    scheduler.add_job(send_weekly_ideas, 'cron', day_of_week='5', hour='10', minute=11, jitter=599)
     #scheduler.add_job(send_daily_question, 'interval', seconds=5)
+    #scheduler.add_job(send_weekly_ideas, 'interval', seconds=5)
 
 async def main():
     logging.basicConfig(
@@ -100,7 +104,6 @@ async def main():
 
     bot['config'] = config
 
-    # Ставим наши таски на запуск, передаем нужные переменные
     set_scheduled_jobs(scheduler)
 
     register_all_middlewares(dp, config, session_pool, scheduler)

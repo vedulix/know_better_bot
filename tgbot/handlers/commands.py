@@ -36,8 +36,8 @@ async def safety_send_notif(bot: Bot, dp: Dispatcher, users: List, data, text, m
 
       if data is not None:
         await state.update_data(daily_data=data)
-
-      await bot.send_message(chat_id=u['telegram_id'], text=f"{text} {random.choice(my_data.emoji)}",
+        text+=f" {random.choice(my_data.emoji)}"
+      await bot.send_message(chat_id=u['telegram_id'], text=text,
                              reply_markup=markup, disable_notification=True)
     except Exception as ex:
       #print(f"{datetime.now()} -- {ex} -- {u['telegram_id']}")
