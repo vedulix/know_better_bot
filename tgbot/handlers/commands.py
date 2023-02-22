@@ -29,6 +29,7 @@ async def cancel_mailing(message: types.Message, state: FSMContext):
 async def safety_send_notif(bot: Bot, dp: Dispatcher, users: List, data, text, markup, session: AsyncSession):
   if data is not None:
     text = data['question']
+    text += f" {random.choice(my_data.emoji)}"
 
   for u in users:
     try:
@@ -36,7 +37,6 @@ async def safety_send_notif(bot: Bot, dp: Dispatcher, users: List, data, text, m
 
       if data is not None:
         await state.update_data(daily_data=data)
-        text+=f" {random.choice(my_data.emoji)}"
       await bot.send_message(chat_id=u['telegram_id'], text=text,
                              reply_markup=markup, disable_notification=True)
     except Exception as ex:

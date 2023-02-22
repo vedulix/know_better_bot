@@ -67,14 +67,15 @@ async def start_6(message: Message, state: FSMContext):
     await Start.s7.set()
 
 async def start_7(message: Message, state: FSMContext):
-    await message.answer(data.start._7.text, reply_markup=mkb(data.start._7.kb))
-    await Start.s8.set()
+    await message.answer(data.start._7.text, reply_markup=mkb(data.start._8.kb))
+    await Start.s9.set()
 
 
+"""
 async def start_8(message: Message, state: FSMContext):
     await message.answer(data.start._8.text, reply_markup=mkb(data.start._8.kb))
     await Start.s9.set()
-
+"""
 
 async def last(message: Message, state: FSMContext):
     await message.answer(data.start.last.text, reply_markup=mkb(data.main_menu.new_kb))
@@ -96,7 +97,7 @@ def register_start(dp: Dispatcher):
     dp.register_message_handler(start_5, state=Start.s5)
     dp.register_message_handler(start_6, state=Start.s6)
     dp.register_message_handler(start_7, state=Start.s7)
-    dp.register_message_handler(start_8, state=Start.s8)
+    #dp.register_message_handler(start_8, state=Start.s8)
     dp.register_message_handler(last, state=Start.s9)
 
     dp.register_message_handler(start_problem, state=Start)
