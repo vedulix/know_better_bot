@@ -116,7 +116,7 @@ async def work_ans(message: types.Message, state: FSMContext, session: AsyncSess
       )
       await session.commit()
       await message.answer(f"{data.jour.sub.work_ans.after_answer}\n\n{random.choice(data.jour.sub.work_ans.support_words)} {random.choice(data.emoji)}")
-      await asyncio.sleep(8)
+      await asyncio.sleep(6)
 
     if data.jour.sub.hi.kb[0] != answer: #В тексте нет "к вопросам"
       datas["datas"] = datas["datas"][1:]
