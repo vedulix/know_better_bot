@@ -1,3 +1,4 @@
+import asyncio
 import time
 
 from tgbot.handlers.main_menu import to_main_menu
@@ -105,7 +106,7 @@ async def year_why_4(message: types.Message, state: FSMContext, session: AsyncSe
 async def work_ans(message: types.Message, state: FSMContext, session: AsyncSession):
   async with state.proxy() as datas:
     answer = message.text
-    if all((answer != i) for i in data.jour.sub.hi.kb + data.jour.sub.work_ans.kb):
+    if all((answer != i) for i in data.jour.sub.hi.kb + data.jour.sub.work_ans.kb + data.main_menu.kb + data.jour.choose.kb):
       await write_answer(
         session=session,
         telegram_id=message.from_user.id,
@@ -114,8 +115,8 @@ async def work_ans(message: types.Message, state: FSMContext, session: AsyncSess
         category=datas["datas"][0]['category']
       )
       await session.commit()
-      await message.answer(data.jour.sub.work_ans.after_answer + random.choice(data.emoji))
-
+      await message.answer(f"{data.jour.sub.work_ans.after_answer}\n\n{random.choice(data.jour.sub.work_ans.support_words)} {random.choice(data.emoji)}")
+      await asyncio.sleep(8)
 
     if data.jour.sub.hi.kb[0] != answer: #В тексте нет "к вопросам"
       datas["datas"] = datas["datas"][1:]

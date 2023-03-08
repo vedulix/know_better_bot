@@ -22,7 +22,7 @@ async def set_mailing(message: types.Message, config: Config):
 
 
 async def cancel_mailing(message: types.Message, state: FSMContext):
-  await message.answer('canceled, you in main menu')
+  await message.answer('canceled, you are in main menu')
   await state.reset_state()
 
 
