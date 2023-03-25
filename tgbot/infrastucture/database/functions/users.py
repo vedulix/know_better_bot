@@ -29,9 +29,6 @@ async def deactivate_user(session, telegram_id):
     await session.execute(stmt)
 
 
-async def edit_notif_user(session, telegram_id, setting):
-    stmt = update(User).where(User.telegram_id == telegram_id).values(reflection_time=setting)
-    await session.execute(stmt)
 
 
 async def select_all_users(session):
@@ -42,70 +39,6 @@ async def select_all_users(session):
     return result_dict
 
 
-async def select_scheduler_users(session, hour):
-    stmt = select(User.telegram_id).filter_by(active=True).filter_by(reflection_time=hour)
-    result = await session.execute(stmt)
-    rows = result.all()
-    result_dict = [u._asdict() for u in rows]
-    return result_dict
-
-
-async def select_daily_question(session, category):
-    stmt = select(Questions.id, Questions.question, Questions.category).filter_by(category=category).order_by(func.random())
-    result = await session.execute(stmt)
-    rows = result.all()
-    result_dict = [u._asdict() for u in rows]
-    return result_dict[0]
-
-
-async def select_weekly_ideas(session, category):
-    stmt = select(Ideas.idea).filter_by(category=category).order_by(func.random()).limit(3)
-    result = await session.execute(stmt)
-    rows = result.all()
-    result_dict = [u._asdict() for u in rows]
-    return result_dict
-
-
-async def write_answer(session, telegram_id, question_id, category, answer):
-    stmt = insert(Answers).values(
-        telegram_id=telegram_id,
-        question_id=question_id,
-        category=category,
-        answer=answer
-    )
-    await session.execute(stmt)
-
-
-async def load_questions(session, category, random=True):
-    stmt = select(Questions.id, Questions.question, Questions.category).filter_by(category=category)
-    if random: stmt = stmt.order_by(func.random())
-    result = await session.execute(stmt)
-    rows = result.all()
-    result_dict = [u._asdict() for u in rows]
-    return result_dict
-
-
-async def get_last_answers(session, telegram_id, category, last_week=False):
-    stmt = select(Questions.question, array_agg(Answers.answer), array_agg(Answers.created_at), func.max(Answers.created_at)).filter_by(
-        category=category
-    ).join(
-        Answers,
-        Answers.question_id == Questions.id
-    ).group_by(Questions.question).filter_by(
-        telegram_id=telegram_id).order_by(func.max(Answers.created_at).desc())
-    if last_week: stmt = stmt.filter(extract('week', Answers.created_at) == extract('week', func.now()))
-    result = await session.execute(stmt)
-    rows = result.all()
-    result_dict = [u._asdict() for u in rows]
-    for row in result_dict:
-        row['array_agg'] = row['array_agg'][::-1]
-        row['array_agg_1'] = row['array_agg_1'][::-1]
-    return result_dict
-
-async def count_questions_in_category(session, category):
-    stmt = select(func.count(Questions.question)).filter_by(category=category)
-    result = await session.execute(stmt)
-    return result.first()[0]
 
 async def select_users_with_referrer(session):
     # Simple INNER JOIN

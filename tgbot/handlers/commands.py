@@ -26,24 +26,6 @@ async def cancel_mailing(message: types.Message, state: FSMContext):
   await state.reset_state()
 
 
-async def safety_send_notif(bot: Bot, dp: Dispatcher, users: List, data, text, markup, session: AsyncSession):
-  if data is not None:
-    text = data['question']
-    text += f" {random.choice(my_data.emoji)}"
-
-  for u in users:
-    try:
-      state = dp.current_state(user=u['telegram_id'])
-
-      if data is not None:
-        await state.update_data(daily_data=data)
-      await bot.send_message(chat_id=u['telegram_id'], text=text,
-                             reply_markup=markup, disable_notification=True)
-    except Exception as ex:
-      #print(f"{datetime.now()} -- {ex} -- {u['telegram_id']}")
-      await deactivate_user(session, telegram_id=u['telegram_id'])
-
-  await session.commit()
 
 
 async def mailing(message: types.Message, state: FSMContext, session: AsyncSession):
@@ -62,27 +44,9 @@ async def mailing(message: types.Message, state: FSMContext, session: AsyncSessi
   await message.answer('mailing finished')
 
 
-async def setting_time(message: types.Message, state: FSMContext, session: AsyncSession):
-  await message.answer(my_data.jour.notif.change_time_text, reply_markup=timelist_kb)
-
-
-async def send_emotions(message: types.Message):
-  await message.answer_photo(my_data.emotions_photo.link, caption=my_data.emotions_photo.caption)
-
-
-async def send_states(message: types.Message):
-  await message.answer_photo(my_data.states_photo.link, caption=my_data.states_photo.caption)
-
-
-async def send_needs(message: types.Message):
-  await message.answer_photo(my_data.needs_photo.link, caption=my_data.needs_photo.caption)
 
 
 def register_commands(dp: Dispatcher):
   dp.register_message_handler(set_mailing, commands=["mail"], state="*")
   dp.register_message_handler(cancel_mailing, commands=["cancel"], state=Mail.wait)
   dp.register_message_handler(mailing, state=Mail.wait)
-  dp.register_message_handler(setting_time, commands=['settings', 'set_notification', 'notification'], state="*")
-  dp.register_message_handler(send_emotions, commands=["feelings"], state="*")
-  dp.register_message_handler(send_states, commands=["states"], state="*")
-  dp.register_message_handler(send_needs, commands=["needs"], state="*")
