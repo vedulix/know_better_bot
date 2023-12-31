@@ -121,9 +121,9 @@ async def work_ans(message: types.Message, state: FSMContext, session: AsyncSess
     if data.jour.sub.hi.kb[0] != answer: #В тексте нет "к вопросам"
       datas["datas"] = datas["datas"][1:]
     if len(datas["datas"])>0:
-      if str(datas["datas"][0]['id'])=='1809':
-        await message.answer(data.jour.year.end_8_text)
-        time.sleep(5)
+      #if str(datas["datas"][0]['id'])=='1809':
+      #  await message.answer(data.jour.year.end_8_text)
+      #  time.sleep(5)
       await message.answer(datas["datas"][0]['question']+"\n\n"+data.jour.write_answer.text, reply_markup=work_ans_kb)
     else:
       await message.answer(data.jour.sub.work_ans.end, reply_markup=sub_hi)
