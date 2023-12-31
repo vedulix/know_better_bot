@@ -115,7 +115,7 @@ async def work_ans(message: types.Message, state: FSMContext, session: AsyncSess
         category=datas["datas"][0]['category']
       )
       await session.commit()
-      await message.answer(f"{data.jour.sub.work_ans.after_answer}\n\n{random.choice(data.jour.sub.work_ans.support_words)} {random.choice(data.emoji)}")
+      await message.answer(f"{data.jour.sub.work_ans.after_answer} {random.choice(data.emoji)}\n\n{random.choice(data.jour.sub.work_ans.support_words)}")
       await asyncio.sleep(4)
 
     if data.jour.sub.hi.kb[0] != answer: #В тексте нет "к вопросам"
