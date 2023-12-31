@@ -78,6 +78,14 @@ async def send_needs(message: types.Message):
   await message.answer_photo(my_data.needs_photo.link, caption=my_data.needs_photo.caption)
 
 
+"""
+с помощью декоратора
+@dp.message_handler(Command("needs"), state="*")
+  async def send_needs(message: types.Message):
+    await message.answer_photo(my_data.needs_photo.link, caption=my_data.needs_photo.caption)
+"""
+
+
 def register_commands(dp: Dispatcher):
   dp.register_message_handler(set_mailing, commands=["mail"], state="*")
   dp.register_message_handler(cancel_mailing, commands=["cancel"], state=Mail.wait)
