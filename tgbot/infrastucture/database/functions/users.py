@@ -49,6 +49,13 @@ async def select_scheduler_users(session, hour):
     result_dict = [u._asdict() for u in rows]
     return result_dict
 
+async def select_scheduler_not_null_users(session):
+    stmt = select(User.telegram_id).filter_by(active=True).filter(User.reflection_time!=None)
+    result = await session.execute(stmt)
+    rows = result.all()
+    result_dict = [u._asdict() for u in rows]
+    return result_dict
+
 
 async def select_daily_question(session, category):
     stmt = select(Questions.id, Questions.question, Questions.category).filter_by(category=category).order_by(func.random())
