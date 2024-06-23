@@ -54,3 +54,5 @@ nvc_kb_3 = RKM(resize_keyboard=True).add(kb(data.rec.nvc.n2.kb[0]))
 nvc_kb_4 = RKM(resize_keyboard=True).add(kb(data.rec.nvc.n3.kb[0]))
 nvc_kb_5 = RKM(resize_keyboard=True).add(kb(data.rec.nvc.n4.kb[0])).add(kb(data.rec.nvc.n4.kb[1]))
 nvc_kb_6 = RKM(resize_keyboard=True).add(kb(data.rec.nvc.example.kb[0]))
+
+back_kb = RKM(resize_keyboard=True).add(kb(data.back))

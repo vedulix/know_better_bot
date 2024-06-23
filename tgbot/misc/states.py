@@ -18,6 +18,11 @@ class main_menu_states(StatesGroup):
 
 class Mail(StatesGroup):
   wait = State()
+  wait_donate = State()
+
+class Feedback(StatesGroup):
+  wait = State()
+
 
 class Know(StatesGroup):
   whom = State()
