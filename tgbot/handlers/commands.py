@@ -126,6 +126,35 @@ async def feedback_wait(message: types.Message, state: FSMContext, config: Confi
 """
 
 
+async def set_digit_mailing(message: types.Message, config: Config):
+    if message.from_user.id in config.tg_bot.test_ids:
+        command_parts = message.text.split()
+        if len(command_parts) != 2 or not command_parts[1].isdigit() or int(command_parts[1]) not in range(10):
+            await message.answer("Пожалуйста, укажите цифру от 0 до 9 после команды, например: /mail_digit 9")
+            return
+        digit = int(command_parts[1])
+        await message.answer(f"Ожидаю ваше сообщение для рассылки пользователям с первой цифрой ID {digit}. Используйте /cancel для отмены.")
+        await Mail.wait_digit.set()
+        await message.bot.get('state').update_data(digit=digit)
+
+async def mailing_digit(message: types.Message, state: FSMContext, session: AsyncSession):
+    state_data = await state.get_data()
+    digit = state_data.get('digit')
+    users = await select_all_users(session)
+    await message.answer(f'Началась рассылка для пользователей с первой цифрой ID {digit}')
+    await state.reset_state()
+
+    for u in users:
+        if str(u['telegram_id']).startswith(str(digit)):
+            try:
+                await message.send_copy(chat_id=u['telegram_id'], reply_markup=main_menu_buttons)
+            except Exception as ex:
+                await deactivate_user(session, telegram_id=u['telegram_id'])
+
+    await session.commit()
+    await message.answer('Рассылка завершена')
+
+
 def register_commands(dp: Dispatcher):
   dp.register_message_handler(set_donate_mailing, commands=["mail_donate"], state="*")
   dp.register_message_handler(set_mailing, commands=["mail"], state="*")
@@ -140,6 +169,6 @@ def register_commands(dp: Dispatcher):
   dp.register_message_handler(about, commands=["about"], state="*")
   dp.register_message_handler(feedback, commands=["feedback"], state="*")
   dp.register_message_handler(feedback_wait, state=Feedback.wait)
-
-
+  dp.register_message_handler(set_digit_mailing, commands=["mail_digit"], state="*")
+  dp.register_message_handler(mailing_digit, state=Mail.wait_digit)
 

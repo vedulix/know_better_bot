@@ -19,6 +19,7 @@ class main_menu_states(StatesGroup):
 class Mail(StatesGroup):
   wait = State()
   wait_donate = State()
+  wait_digit = State()  # Добавляем новое состояние
 
 class Feedback(StatesGroup):
   wait = State()

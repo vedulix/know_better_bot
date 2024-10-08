@@ -102,4 +102,3 @@ def register_start(dp: Dispatcher):
     dp.register_message_handler(last, state=Start.s9)
 
     dp.register_message_handler(start_problem, state=Start)
-
