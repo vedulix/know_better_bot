@@ -126,7 +126,7 @@ async def feedback_wait(message: types.Message, state: FSMContext, config: Confi
 """
 
 
-async def set_digit_mailing(message: types.Message, config: Config):
+async def set_digit_mailing(message: types.Message, state: FSMContext, config: Config):
     if message.from_user.id in config.tg_bot.test_ids:
         command_parts = message.text.split()
         if len(command_parts) != 2 or not command_parts[1].isdigit() or int(command_parts[1]) not in range(10):
@@ -135,7 +135,7 @@ async def set_digit_mailing(message: types.Message, config: Config):
         digit = int(command_parts[1])
         await message.answer(f"Ожидаю ваше сообщение для рассылки пользователям с первой цифрой ID {digit}. Используйте /cancel для отмены.")
         await Mail.wait_digit.set()
-        await message.bot.get('state').update_data(digit=digit)
+        await state.update_data(digit=digit)
 
 async def mailing_digit(message: types.Message, state: FSMContext, session: AsyncSession):
     state_data = await state.get_data()
