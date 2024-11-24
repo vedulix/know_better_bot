@@ -1,0 +1,86 @@
+    1  ls
+    2  sudo
+    3  sudo pwd
+    4  ls
+    5  docker-compose up -d
+    6  apt  install docker-compose
+    7  sudo apt  install docker-compose
+    8  cd know_better_bot/
+    9  docker-compose up -d
+   10  sudo docker-compose up -d
+   11  nano docker-compose.yml 
+   12  conda create --name myenv python=3.8
+   13  sudo apt-get conda
+   14  sudo apt-get miniconda
+   15  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+   16  bash Miniconda3-latest-Linux-x86_64.sh
+   17  conda create --name myenv python=3.8
+   18  If you'd prefer that conda's base environment not be activated on startup, 
+   19  conda config --set auto_activate_base false
+   20  Thank you for installing Miniconda3!
+   21  dev@backspace:~/know_better_bot$ conda create --name myenv python=3.8
+   22  conda: command not foun
+   23  source ~/miniconda3/etc/profile.d/conda.sh
+   24  conda create --name myenv python=3.8
+   25  conda activate myenv
+   26  y
+   27  conda create --name myenv python=3.8
+   28  conda activate myenv
+   29  pip install -r requirements.txt 
+   30  pip3 install -r requirements.txt 
+   31  pip install psycopg2
+   32  export PATH="/path/to/pg_config:$PATH"
+   33  source ~/.bashrc  # or source ~/.bash_profile, source ~/.zshrc, depending on the file you modified
+   34  pip install psycopg2
+   35  pip install psycopg2-binary
+   36  pip install psycopg2
+   37  source ~/.bashrc  # or source ~/.bash_profile, source ~/.zshrc, depending on the file you modified
+   38  export PATH="/path/to/pg_config:$PATH"
+   39  pip install psycopg2
+   40  export PATH="/usr/bin/pg_config:$PATH"
+   41  pip install psycopg2
+   42  conda activate myenv
+   43  pip install psycopg2
+   44  export PATH="/usr/bin/pg_config:$PATH"
+   45  pip install psycopg2
+   46  pip install -r requirements.txt 
+   47  pip install psycopg2
+   48  export PATH="/usr/bin/pg_config:$PATH"
+   49  pip install psycopg2
+   50  pip uninstall psycopg2
+   51  pip install psycopg2-binary
+   52  export PATH="/usr/bin/pg_config:$PATH"
+   53  pip install psycopg2
+   54  sudo apt-get install libpq-dev
+   55  export PATH="/usr/bin/pg_config:$PATH"
+   56  pip install psycopg2
+   57  sudo apt-get install build-essential
+   58  export PATH="/usr/bin/pg_config:$PATH"
+   59  pip install psycopg2
+   60  pip install -r requirements.txt 
+   61  screen -L  python3 dogbot.py 
+   62  ls
+   63  nano screenlog.0 
+   64  pip install pytz_deprecation_shim
+   65  pip install -r requirements.txt 
+   66  screen -L  python3 dogbot.py 
+   67  ды
+   68  ls
+   69  nano .env
+   70  ls
+   71  nano screenlog.0 
+   72  timedatectl
+   73  sudo timedatectl set-timezone Europe/Moscow
+   74  timedatectl
+   75  cd know_better_bot/
+   76  ps axu | grep python
+   77  kill 524
+   78  screen -L  python3 dogbot.py 
+   79  ps axu | grep python
+   80  screen -L  python3 dogbot.py 
+   81  ls
+   82  nano screenlog.0 
+   83  conda activate myenv
+   84  screen -L  python3 dogbot.py 
+   85  ls
+   86  history

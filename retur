@@ -1,0 +1,114 @@
+[33mcommit 183564b0e6f83f129a49c7f7e7e9211db157a4d3[m[33m ([m[1;36mHEAD -> [m[1;32mredis_jobstore[m[33m, [m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Fri Dec 23 19:57:20 2022 +0300
+
+    redis jobstore
+
+[33mcommit 6c95bbf1e6b4ae0d6073875daf0be5668e5bd193[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Fri Dec 23 01:59:58 2022 +0300
+
+    add sheduler
+
+[33mcommit c0e0e49a380ae41dec6b0eb52c6cba2fcfb2c8ed[m
+Merge: 92970df 48da36a
+Author: vedulix <us.do.to@gmail.com>
+Date:   Wed Dec 14 10:24:04 2022 +0300
+
+    Merge branch 'master' of https://github.com/vedulix/know_better_bot
+
+[33mcommit 92970df58912a6153e3d3ab42d7ddd3dc0d9651d[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Wed Dec 14 10:22:32 2022 +0300
+
+    answers in know better handler
+
+[33mcommit 48da36ab3225eea6d7ea5aa7753b6e9eafa89c9f[m
+Author: vedulix <81565848+vedulix@users.noreply.github.com>
+Date:   Tue Oct 25 22:16:30 2022 +0300
+
+    Update readme.md
+
+[33mcommit 68b8e86a66fd46f94fe6e773eadb52e0680996db[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Sun Oct 9 00:03:40 2022 +0300
+
+    add questions
+
+[33mcommit 8b5619893409d0ec9bb043ab87e93c23d9a3e7f0[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Sat Oct 8 19:45:21 2022 +0300
+
+    add questions
+
+[33mcommit 63430691e1436a25905400d609b0fbcabc9ef44f[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Sat Oct 8 19:23:47 2022 +0300
+
+    add questions
+
+[33mcommit 0d321b8d8fb090f7a12a52f7aa26e6dc9783cae5[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Tue Sep 6 19:27:21 2022 +0300
+
+    upd amd
+
+[33mcommit f78c002ecc554d21cda0c2a56d7065254b78098b[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Sun Sep 4 18:57:38 2022 +0300
+
+    upd fam
+
+[33mcommit 11ee85ff65081d9c4dc1bc872d94b2021712d5fe[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Wed Aug 17 23:25:07 2022 +0300
+
+    upd req
+
+[33mcommit d89b78f6027c7e5796f27d6cc0eb52ecc8f64720[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Wed Aug 17 23:24:12 2022 +0300
+
+    add alembic
+
+[33mcommit d90821a432fdb2c46ff76cab7c5bec2128f6fb00[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Wed Aug 17 23:15:10 2022 +0300
+
+    add alembic
+
+[33mcommit a288aee5847bbd0f8876a8a53b9dc418c38678d5[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Wed Aug 17 22:56:22 2022 +0300
+
+    add db
+
+[33mcommit 3b84b5cf51cb58dbb5bd43e9604c1f4aae6643bb[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Tue Jul 19 16:12:53 2022 +0300
+
+    add readme
+
+[33mcommit 0848f200f8a80a9c3312e7bbe5b59f0769a4904d[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Tue Jul 19 16:11:50 2022 +0300
+
+    add readme
+
+[33mcommit e16e36bc4be2dace56f9f48784199ef6ebef6983[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Mon Jul 18 20:02:46 2022 +0300
+
+    add files
+
+[33mcommit e68a6366b075e7ba901c155be471a305da677914[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Mon Jul 18 19:59:32 2022 +0300
+
+    add files
+
+[33mcommit 07e2fb51b44dfda9e797429ef77692463e620b0a[m
+Author: vedulix <us.do.to@gmail.com>
+Date:   Mon Jul 18 19:54:04 2022 +0300
+
+    add files
