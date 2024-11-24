@@ -1,13 +1,26 @@
-aiogram~=2.18
-aioredis~=2.0
-environs~=9.0
-python-box[all]~=6.0
-asyncpg
-alembic
-psycopg2
-SQLAlchemy~=1.4.39
-telegraph
-datetime
-apscheduler
-apscheduler-di
-redis
+# Core dependencies
+aiogram==2.25.1
+aioredis==2.0.1
+environs==9.5.0
+python-box[all]==6.0.2
+asyncpg==0.28.0
+alembic==1.12.1
+SQLAlchemy==1.4.39
+telegraph==2.2.0
+apscheduler==3.10.4
+apscheduler-di==0.1.0
+redis==5.0.1
+
+# Database
+psycopg2-binary==2.9.9  # Заменили psycopg2 на psycopg2-binary
+
+# Testing dependencies
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+sqlalchemy-utils==0.41.1
+python-dotenv==1.0.0
+
+# System dependencies
+setuptools>=65.5.1
+wheel>=0.38.0
