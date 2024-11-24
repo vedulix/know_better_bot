@@ -18,12 +18,9 @@
 
 ### 2.1 База данных и бизнес-логика
 - Основное хранилище ответов пользователей — потеря данных критична
-- Сложная схема БД с несколькими связанными таблицами
-- Высокая нагрузка при параллельной работе множества пользователей
 
 ### 2.2 Управление состояниями
-- Потеря состояния диалога разрушает весь пользовательский опыт
-- Сложная логика переходов между состояниями
+- Потеря состояния диалога аффектит пользовательский опыт
 - Необходимость синхронизации состояний между разными обработчиками
 
 ### 2.3 Локализация
@@ -41,7 +38,6 @@
 
 ```python
 async def test_state_management_integration(message_mock, state_mock):
-    # Проверяем переключение состояний и сохранение данных
     await choose(message_mock, state_mock)
     state_data = await state_mock.get_data()
     current_state = await state_mock.get_state()
@@ -53,7 +49,6 @@ async def test_state_management_integration(message_mock, state_mock):
 
 ```python
 async def test_localization_integration():
-    # Проверяем загрузку и наличие текстов
     assert data.main_menu.text is not None
     assert data.jour.choose.text is not None
     assert data.jour.notif.change_time_text is not None
@@ -62,12 +57,10 @@ async def test_localization_integration():
 
 ```python
 async def test_write_answer_integration(message_mock, state_mock, session):
-    # Подготовка тестовых данных
     telegram_id = message_mock.from_user.id
     answer_text = "Test answer"
     message_mock.text = answer_text
     
-    # Создание тестового пользователя
     await create_user(
         session,
         telegram_id=telegram_id,
@@ -77,7 +70,6 @@ async def test_write_answer_integration(message_mock, state_mock, session):
     )
     await session.commit()
     
-    # Установка тестового состояния
     await state_mock.set_state(Jour.work_ans)
     await state_mock.set_data({
         "datas": [{
@@ -87,10 +79,8 @@ async def test_write_answer_integration(message_mock, state_mock, session):
         }]
     })
     
-    # Выполнение тестируемой операции
     await work_ans(message_mock, state_mock, session)
     
-    # Проверка результатов
     saved_answers = await get_last_answers(
         session,
         telegram_id=telegram_id,
@@ -103,11 +93,9 @@ async def test_write_answer_integration(message_mock, state_mock, session):
 
 ```python
 def init_test_db():
-    # Загрузка конфигурации тестовой БД
     env_path = Path(__file__).parent.parent / '.env.test'
     load_dotenv(env_path)
     
-    # Формирование URL подключения
     DATABASE_URL = (
         f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
         f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('POSTGRES_DB')}"
@@ -120,7 +108,6 @@ def init_test_db():
         create_database(engine.url)
         print(f"Created database: {os.getenv('POSTGRES_DB')}")
     
-    # Проверка подключения
     try:
         connection = engine.connect()
         print("Successfully connected to the database!")
