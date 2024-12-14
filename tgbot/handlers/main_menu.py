@@ -22,7 +22,7 @@ async def support(message: types.Message, state: FSMContext):
   #await main_menu_states.about.set()
 
 async def need_help(message: types.Message, state: FSMContext):
-  await message.answer(data.support_bot.text, reply_markup=need_help_link_kb, disable_web_page_preview=True)
+  await message.answer(data.need_help.text, reply_markup=need_help_link_kb, disable_web_page_preview=True)
 
 
 async def to_main_menu(message: types.Message, state: FSMContext):
