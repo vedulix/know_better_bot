@@ -2,7 +2,7 @@ import asyncio
 import time
 
 from tgbot.handlers.main_menu import to_main_menu
-from tgbot.infrastucture.database.functions.users import load_questions, write_answer, get_last_answers, \
+from tgbot.infrastucture.database.functions.users import get_all_last_answers, load_questions, write_answer, get_last_answers, \
   count_questions_in_category, edit_notif_user
 from tgbot.keyboards.inline import daily_back_kb, timelist_kb, daily_ref_kb, daily_ref_only_write_kb
 from tgbot.keyboards.reply import choose_jour, self_hi, work_ans_kb, sub_hi, mkb, year_hi_kb, main_menu_buttons
@@ -115,7 +115,7 @@ async def work_ans(message: types.Message, state: FSMContext, session: AsyncSess
         category=datas["datas"][0]['category']
       )
       await session.commit()
-      await message.answer(f"{data.jour.sub.work_ans.after_answer} {random.choice(data.emoji)}\n\n{random.choice(data.jour.sub.work_ans.support_words)}")
+      await message.answer(f"{data.jour.sub.work_ans.after_answer} {random.choice(data.emoji)}\n\n{random.choice(data.jour.sub.work_ans.support_words)}", disable_web_page_preview=False)
       await asyncio.sleep(4)
 
     if data.jour.sub.hi.kb[0] != answer: #В тексте нет "к вопросам"
@@ -147,6 +147,28 @@ async def see_ans(message: types.Message, state: FSMContext, session: AsyncSessi
     time.sleep(3)
   else:
     await message.answer(data.jour.sub.work_ans.zero)
+
+
+async def see_all_ans(message: types.Message, state: FSMContext, session: AsyncSession):
+  state_data = await state.get_data()
+  #category = state_data.get("category")
+  #category_name = state_data.get("category_name")
+  html = ""
+  ans = await get_all_last_answers(session, telegram_id=message.from_user.id)
+  if len(ans)>0:
+    for row in ans:
+      html += f"<i>{delete_commands(row['question'])}</i><br>"
+      for i in range(len(row['array_agg'])):
+        html += f"> {row['array_agg'][i]} ({nice_date(row['array_agg_1'][i])})<br>"
+      html += "<br>"
+    link = to_telegraph_link(page_name="Твои ответы", html_content=html)
+    await message.answer(f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>\n\n{data.jour.sub.work_ans.and_ans}', reply_markup=IKM(inline_keyboard=[[IKB(text="Посмотреть ответы", url=link)]]))
+    
+    time.sleep(3)
+  else:
+    await message.answer(data.jour.sub.work_ans.zero)
+
+
 
 
 async def take_daily_ans(call: CallbackQuery, state: FSMContext, session: AsyncSession):
@@ -214,3 +236,4 @@ def register_journaling(dp: Dispatcher):
   dp.register_callback_query_handler(change_daily_ref_time, text="change_daily_ref_time", state="*")
   dp.register_callback_query_handler(select_time, Text(startswith='time'), state="*")
   dp.register_callback_query_handler(off_notif, text='off_notif', state="*")
+  dp.register_callback_query_handler(see_all_ans, text='see_all_ans', state="*")

@@ -7,7 +7,8 @@ from tgbot.locals.load_json import data
 daily_ref_kb = IKM(inline_keyboard=[
   [
     IKB(text=data.jour.notif.change_time, callback_data="change_daily_ref_time"),
-    IKB(text=data.jour.notif.off, callback_data="off_notif"),
+    #IKB(text=data.jour.notif.off, callback_data="off_notif"),
+    IKB(text=data.jour.notif.see_all_ans, callback_data="see_all_ans"),
   ],
   [
     IKB(text=data.jour.notif.write, callback_data="write_daily_ref_ans"),
