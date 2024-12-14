@@ -24,6 +24,9 @@ daily_ref_only_write_kb = IKM(inline_keyboard=[
 
 support_link_kb=IKM(inline_keyboard=[[IKB(text=data.support.inline_text, url=data.support.url)]])
 
+need_help_link_kb=IKM(inline_keyboard=[[IKB(text=data.need_help.inline_text, url=data.need_help.url)]])
+
+
 
 daily_back_kb = IKM(inline_keyboard=[
   [

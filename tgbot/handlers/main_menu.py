@@ -4,7 +4,7 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import state
 
-from tgbot.keyboards.inline import support_link_kb
+from tgbot.keyboards.inline import support_link_kb, need_help_link_kb
 from tgbot.keyboards.reply import rec_choose, main_menu_buttons, about_bot_kb
 from tgbot.locals.load_json import data
 from tgbot.misc.states import main_menu_states, Feedback
@@ -21,12 +21,18 @@ async def support(message: types.Message, state: FSMContext):
   await message.answer(data.support_bot.text, reply_markup=support_link_kb, disable_web_page_preview=True)
   #await main_menu_states.about.set()
 
+async def need_help(message: types.Message, state: FSMContext):
+  await message.answer(data.support_bot.text, reply_markup=need_help_link_kb, disable_web_page_preview=True)
+
+
 async def to_main_menu(message: types.Message, state: FSMContext):
   await message.answer(message.from_user.first_name + ", " + random.choice(data.main_menu.phrases) + " " + random.choice(data.emoji) + data.main_menu.text, reply_markup=main_menu_buttons, disable_web_page_preview=True)
   await state.reset_state()
 
 
 def register_main_menu(dp: Dispatcher):
+  
+  dp.register_message_handler(need_help, text=data.main_menu.kb[4])
   dp.register_message_handler(support, text=data.main_menu.kb[3])
   dp.register_message_handler(recommendations, text=data.main_menu.kb[2])
   dp.register_message_handler(to_main_menu, text=data.main_menu.text_to, state=main_menu_states.rec)

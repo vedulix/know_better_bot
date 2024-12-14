@@ -34,7 +34,7 @@ work_ans_kb = RKM(resize_keyboard=True, input_field_placeholder=data.jour.sub.wo
 #main_menu
 rec_choose = RKM(resize_keyboard=True).add(kb(data.rec.choose.kb[0]), kb(data.rec.choose.kb[1])).add(kb(data.rec.choose.kb[2]))
 about_bot_kb = RKM(resize_keyboard=True).add(kb(data.about_bot.kb[0]))
-main_menu_buttons = RKM(resize_keyboard=True).add(kb(data.main_menu.kb[0]), kb(data.main_menu.kb[1])).add(kb(data.main_menu.kb[2]), kb(data.main_menu.kb[3]))
+main_menu_buttons = RKM(resize_keyboard=True).add(kb(data.main_menu.kb[0]), kb(data.main_menu.kb[1])).add(kb(data.main_menu.kb[2]), kb(data.main_menu.kb[3])).add(kb(data.main_menu.kb[4]))
 
 
 #active listening
