@@ -149,8 +149,8 @@ async def see_ans(message: types.Message, state: FSMContext, session: AsyncSessi
     await message.answer(data.jour.sub.work_ans.zero)
 
 
-async def see_all_ans(message: types.Message, state: FSMContext, session: AsyncSession):
-  state_data = await state.get_data()
+async def see_all_ans(message: types.Message, session: AsyncSession):
+  #state_data = await state.get_data()
   #category = state_data.get("category")
   #category_name = state_data.get("category_name")
   html = ""
@@ -161,8 +161,9 @@ async def see_all_ans(message: types.Message, state: FSMContext, session: AsyncS
       for i in range(len(row['array_agg'])):
         html += f"> {row['array_agg'][i]} ({nice_date(row['array_agg_1'][i])})<br>"
       html += "<br>"
-    link = to_telegraph_link(page_name="Твои ответы", html_content=html)
-    await message.answer(f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>\n\n{data.jour.sub.work_ans.and_ans}', reply_markup=IKM(inline_keyboard=[[IKB(text="Посмотреть ответы", url=link)]]))
+    link = to_telegraph_link(page_name="Все Твои Ответы", html_content=html)
+
+    await message.answer(f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>\n\n{data.jour.sub.work_ans.and_all_ans}')
     
     time.sleep(3)
   else:
@@ -237,3 +238,5 @@ def register_journaling(dp: Dispatcher):
   dp.register_callback_query_handler(select_time, Text(startswith='time'), state="*")
   dp.register_callback_query_handler(off_notif, text='off_notif', state="*")
   dp.register_callback_query_handler(see_all_ans, text='see_all_ans', state="*")
+  dp.register_message_handler(see_all_ans, commands=["my_answers"], state="*")
+
