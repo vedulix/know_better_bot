@@ -162,8 +162,9 @@ async def see_all_ans(message: types.Message, session: AsyncSession):
         html += f"> {row['array_agg'][i]} ({nice_date(row['array_agg_1'][i])})<br>"
       html += "<br>"
     link = to_telegraph_link(page_name="Все Твои Ответы", html_content=html)
-
-    await message.answer(f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>\n\n{data.jour.sub.work_ans.and_all_ans}')
+    #await bot.send_message(chat_id=u['telegram_id'], text=text,
+    #                               reply_markup=markup, disable_notification=True)
+    await message.send_message(chat_id=message.chat.id, text=f'<a href="{link}">{data.jour.sub.work_ans.take_ans}</a>\n\n{data.jour.sub.work_ans.and_all_ans}', disable_web_page_preview=False, reply_markup=main_menu_buttons)
     
     time.sleep(3)
   else:
